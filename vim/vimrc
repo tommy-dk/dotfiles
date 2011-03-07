@@ -1,0 +1,244 @@
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
+" defaults for everything
+set backspace=indent,eol,start					" yeah.
+set laststatus=2								" always
+set nostartofline								" yeah, sure
+set ruler										" always show ruler
+set showcmd										" tell me what i'm doing
+set showmatch									" where'd the opening ')' go?
+set showmode									" where am i?
+set history=150         						" keep 150 lines of command line history
+set nowrap                                      " wrapping off!
+set background=dark                             " the background is dark
+set hlsearch                                    " when searching hilight the word
+
+set backup										" keep a backup file
+set backupdir=~/.vim/backupfiles/				" backup dir
+set backupext=~         						" backup extension
+
+set dir=~/.vim/tmp                              " put .swp-files in ~/tmp
+
+set tabstop=4									" tabs at 4 spaces
+set shiftwidth=4                                " Number of spaces to use for each step of (auto)indent.
+set textwidth=0 "79								" textwidth
+set noerrorbells								" no fucking bell
+set guioptions=''								" no gui at all
+set lazyredraw									" do not update screen while executing commands
+set undolevels=1000  							" undoing 1000 changes should be enough :-)
+set updatecount=200  							" write swap file to disk after each 200 characters
+set updatetime=6000  							" write swap file to disk after 5 inactive seconds
+
+
+" Indenting and tab settings
+" " I prefer a 4 spaces indent instead of long tabs, see
+" " http://www.jwz.org/doc/tabs-vs-spaces.html for some good reasons.
+"
+set expandtab           " insert spaces when hitting <tab>
+set smarttab            " a <Tab> in front of a line inserts blanks according to 'shiftwidth'.
+set autoindent          " always autoindent on
+set smartindent         " smartindent! :)
+
+
+"       suffixes:    Ignore filename with any of these suffixes
+"                    when using the ":edit" command.
+"                    Most of these are files created by LaTeX.
+set suffixes=.aux,.bak,.dvi,.gz,.idx,.ps,.swp,.tar
+
+
+" this viminfo feature is really annoying, disable it
+"set viminfo=
+
+
+" For Syntax highligting:
+if has("syntax")
+	syntax on
+endif
+
+
+" wrap at 79 and autoindent for c, html, perl, and php
+au BufNewFile,BufRead *.pl,*.cgi,*.php*,*.*html*,*.c,*.h set tw=79 autoindent
+
+
+" email gets wrapped at 68 and tabs get expanded
+au BufNewFile,BufRead /tmp/mutt* set tw=68 et
+
+
+" cvs commit messages get wrapped at 68 and tabs get expanded
+au BufNewFile,BufRead /tmp/cvs* set tw=68 et
+
+
+" makefiles and c have tabstops at 8 for portability
+au BufNewFile,BufRead Makefile,*.c,*.h,*.cpp set ts=4
+
+
+" Mapping for fast Make-compile-edit cycles
+map <F12> :make<CR>
+
+" toggle paste on/off on F11
+set pastetoggle=<F11>
+
+"       visualbell:
+set visualbell
+
+
+"       t_vb:  terminal's visual bell - turned off to make Vim quiet!
+"       Please use this as to not annoy co-workers in the same room.
+"       Thankyou!  :-)
+set t_vb=       
+
+" Loads the filetype plugins, see :help add-filetype-plugin for more info
+filetype plugin indent on
+
+" Skeleton files:
+autocmd BufNewfile *.c          0r ~/.vim/skeleton.c
+autocmd BufNewfile *.h          0r ~/.vim/skeleton.h
+autocmd BufNewfile *.cc         0r ~/.vim/skeleton.cc
+autocmd BufNewfile *.hh         0r ~/.vim/skeleton.hh
+autocmd BufNewfile *.java       0r ~/.vim/skeleton.java
+autocmd BufNewFile *.html       0r ~/.vim/skeleton.html
+autocmd BufNewfile *.tex        0r ~/.vim/skeleton.tex
+
+
+iab THO Tommy Heyde Olsen
+iab <br> <br />
+
+" See more: http://www.vim.org/tip_view.php?tip_id=102
+function InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
+    endif
+endfunction
+
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+
+" insert ending bracket when writing a starting bracket, see more:
+" http://www.vim.org/tip_view.php?tip_id=153
+" inoremap <F7> :inoremap {<CR><BS>}<ESC>ko!<cr>
+" Trigger_Define('<F7>', 'inoremap { {}<Left>')
+" inoremap { {<CR><BS>}<ESC>ko
+
+" whenever you type "%" you jump to the matching object AND you visually
+" select all the text in between. See more:
+" http://www.vim.org/tip_view.php?tip_id=6
+noremap % v%
+
+" window mangling, see more: http://www.vim.org/tip_view.php?tip_id=173
+set winminheight=0
+map <C-J> <C-W>j<C-W>_
+map <C-K> <C-W>k<C-W>_
+
+" automatically give executable permissions if file begins with #! and contains
+" '/bin/' in the path
+
+function ModeChange()
+  if getline(1) =~ "^#!"
+    if getline(1) =~ "/bin/"
+      silent !chmod a+x <afile>
+    endif
+  endif
+endfunction
+
+au BufWritePost * call ModeChange()
+
+" automatically update SOA records in DNS zones
+"
+if has("python")
+
+autocmd FileType bindzone map S :python updateDnsSerial()
+
+python << EOF
+def updateDnsSerial():
+   import re, time, vim, string
+
+   maxSearch = 20
+
+   cb = vim.current.buffer
+   foundSoa = 0
+   for i in xrange(0, min(maxSearch, len(cb))):
+      line = cb[i]
+      if foundSoa:
+         #  look for serial
+         rx = re.match(r'^\s*(\d+).*', line)
+         if not rx:
+            print 'Unable to find Serial'
+            return
+         serial = rx.group(1)
+         #  generate new serial
+         now = time.time()
+         today = time.strftime('%Y%m%d01', time.localtime(now))
+         todayVal = long(today)
+         serialVal = long(serial)
+         if todayVal <= serialVal: todayVal = serialVal + 1
+
+         #  update serial
+         cb[i] = string.replace(line, serial, '%d' % todayVal)
+
+         #  display update string
+         print 'Updated serial from "%s" to "%d"' % ( serial, todayVal )
+         break
+      if re.match(r'^@\s+IN\s+SOA\s+', line): foundSoa = 1
+EOF
+endif
+
+" commentify code:
+" ctrl-c to comment a single line
+" ctrl-x to un-comment a single line
+" shift-v and select multiple lines, then ctrl-c to comment the selected multiple lines
+" shift-v and select multiple lines, then ctrl-x to un-comment the selected multiple lines 
+"
+
+
+
+" Transparent editing of gpg encrypted files.
+" By Wouter Hanegraaff <wouter@blub.net>
+" http://vim.wikia.com/wiki/Vim_Gpg
+augroup encrypted
+    au!
+    " First make sure nothing is written to ~/.viminfo while editing
+    " an encrypted file.
+    autocmd BufReadPre,FileReadPre      *.gpg set viminfo=
+    " We don't want a swap file, as it writes unencrypted data to disk
+    autocmd BufReadPre,FileReadPre      *.gpg set noswapfile
+    " Switch to binary mode to read the encrypted file
+    autocmd BufReadPre,FileReadPre      *.gpg set bin
+    autocmd BufReadPre,FileReadPre      *.gpg let ch_save = &ch|set ch=2
+    autocmd BufReadPre,FileReadPre      *.gpg let shsave=&sh
+    autocmd BufReadPre,FileReadPre      *.gpg let &sh='sh'
+    autocmd BufReadPre,FileReadPre      *.gpg let ch_save = &ch|set ch=2
+    autocmd BufReadPost,FileReadPost    *.gpg '[,']!gpg --decrypt --default-recipient-self 2> /dev/null
+    autocmd BufReadPost,FileReadPost    *.gpg let &sh=shsave
+    " Switch to normal mode for editing
+    autocmd BufReadPost,FileReadPost    *.gpg set nobin
+    autocmd BufReadPost,FileReadPost    *.gpg let &ch = ch_save|unlet ch_save
+    autocmd BufReadPost,FileReadPost    *.gpg execute ":doautocmd BufReadPost " . expand("%:r")
+    " Convert all text to encrypted text before writing
+    autocmd BufWritePre,FileWritePre    *.gpg set bin
+    autocmd BufWritePre,FileWritePre    *.gpg let shsave=&sh
+    autocmd BufWritePre,FileWritePre    *.gpg let &sh='sh'
+    autocmd BufWritePre,FileWritePre    *.gpg '[,']!gpg --encrypt --default-recipient-self 2>/dev/null
+    autocmd BufWritePre,FileWritePre    *.gpg let &sh=shsave
+    " Undo the encryption so we are back in the normal text, directly
+    " after the file has been written.
+    autocmd BufWritePost,FileWritePost  *.gpg   silent u
+    autocmd BufWritePost,FileWritePost  *.gpg set nobin
+augroup END
+
+
+" password generator
+function GeneratePassword()
+    :r!pwgen
+endfunction
+
+" press ctrl-p to insert a generated password
+autocmd BufEnter *.txt.gpg map <c-p> :silent call GeneratePassword()<cr>
+
+" no comments in configuration files
+" http://www.debian-administration.org/articles/616
+"set fdm=expr
+"set fde=getline(v:lnum)=~'^\\s*#'?1:getline(prevnonblank(v:lnum))=~'^\\s*#'?1:getline(nextnonblank(v:lnum))=~'^\\s*#'?1:0

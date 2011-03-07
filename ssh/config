@@ -1,0 +1,10 @@
+Host herzeleid*
+	User tommy
+	
+Host sehnsucht*
+	User tommy
+
+Host linuxhq*
+	Hostname home.linuxhq.dk
+	User yotus
+	Port 9999

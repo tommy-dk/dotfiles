@@ -1,0 +1,142 @@
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+
+### Created by Brad Sims  25/06/2004
+
+### I got tired of .screenrc's on the internet being so
+### poorly commented... So being a good GNUbie I took matters
+### into my own hands; and wrote this dotfile.
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+
+##    Explanation of hardstatus line    ##
+# Ignore the ' marks if you use these examples for yourself
+# Note that if you want to use the color brown under konsole
+# You actually use bright yellow (%{Y}).
+# Note the embeded space after the colon, I feel
+#  it just looks nicer with a blank between the
+#  text and console edge:
+#   '%{=b}%{G} Screen(s): '
+
+# This prints the window listing in blue:
+#   '%{b}%w'
+
+# This right-aligns what follows:
+#   '%='
+
+# This displays the time (hours and minutes) in 12hr format
+# and adds an AM/PM flag, in bold green:
+#   '%{G}%C%A'
+
+# This displays the day of the week:
+#   '%D'
+
+# This displays the date in Mon/day/year format:
+# and again I embeded a space to give me one space
+# between the text and console edge:
+#  '%M/%d/%Y '
+
+# The resulting command give you a status line that
+#  looks like this:
+#   | Screen(s): 0* bash           5:30PM  Fri, Jun/25/2004 |
+
+#  (The pipes indicate the edges of the xterm/console).
+# Green text, time, and date; windows in blue:
+#hardstatus alwayslastline "%{=b}%{G} Screen(s) on %H: %{b}%w %=%{kG}%c  %D, %d %M %Y "
+#hardstatus alwayslastline '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %d/%m %{W}%c %{g}]'
+#hardstatus alwayslastline "%{=b kW}[ %{= Y}$USER @ %H %{b W}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{b W}][%{= Y} %l %{b W}][%{= Y} %d/%m %{Y}%c %{b W}]"
+hardstatus alwayslastline "%{=b kW}[ %{-b dc}$USER @ %H %{=b kW}] %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}%= %{b kW}[%{-b dc} %d/%m-%y %c %{b kw}]"
+
+#caption always "%{= bW}[%{+b}%n: %t%{-}][%{+b}%-Lw%50>%n%f*%t%+Lw%<%{-}]%-=%?[%{+b}Batt: %1`%%%{-}]%?%?[%{+b}Mail: %2`%{-}]%?%?[%{+b}%H%{-}]%?[%{+b}%Y.%m.%d %c:%s%{-}]"
+#caption always "%m/%d/%y %0c%{=b kg}  %l  %{=r gk}%-w%{=b wb}%50>%n%f* %t%{-}%+Lw%<%{- Wk}"
+#caption always "%{=b dw}%{=b dw}[ %{-b dc}%h%{=b dw} ] [ %= %?%{-b dc}%-Lw%?%{+b dk}(%{+b dw}%n:%t%{+b dk})%?(%u)%?%{-b dw}%?%{-b dc}%+Lw%? %{=b dk}%{=b dw}] [%{-b dw} %1%{=b dw} ]"
+
+# The current window is marked with a `*'; the previous window is marked with a `-'; all the windows that are logged in are marked with a `$' (see section 10.4 Login); a background window that has received a bell is marked with a `!'; a background window that is being monitored and has had activity occur is marked with an `@' (see section 10.6 Monitoring); a window which has output logging turned on is marked with `(L)'; windows occupied by other users are marked with `&' or `&&' if the window is shared by other users; windows in the zombie state are marked with `Z'.
+
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+
+##    Some general options    ##
+
+activity 'Activity on screen %n ^G'
+
+# Turn off start message:
+startup_message off
+
+# Set messages timeout to one second:
+msgwait 1
+
+# use visual bell
+vbell on
+
+#setenv LC_CTYPE en_DK.UTF-8
+setenv LC_CTYPE en_DK.iso8859-1
+defutf8 off
+
+# set colorful terminal
+#term screen-256color
+#term rxvt
+#term xterm-color
+term screen
+
+##    Keybindings    ##
+
+# bind F5 to create a new screen
+# bind F6 to rename current screen window
+# bind F7 to move to previous window
+# bind F8 to move to next window
+# bind F11 to kill current screen window.
+# bind F12 to detach screen session from this terminal
+bindkey -k k5 screen 1
+bindkey -k k6 title
+bindkey -k k7 prev
+bindkey -k k8 next
+bindkey -k k9 kill
+bindkey -k k; detach
+
+#bindkey -m ^[kl prev
+#bindkey -m ^[kr next
+
+# putty bindings
+#bindkey \"^[OC\" next
+#bindkey \"^[OD\" prev
+
+# Bind arrow keys Control-Left to 'next', Control-Right to 'prev'
+# to navigate between windows
+bindkey ^[[D prev
+bindkey ^[[C next
+
+# unbind some keys
+bind .
+bind ^\
+bind \\
+bind K
+
+# alt-[0-9] changes window ...
+
+#bindkey ^[0 select 0
+#bindkey ^[1 select 1
+#bindkey ^[2 select 2
+#bindkey ^[3 select 3
+#bindkey ^[4 select 4
+#bindkey ^[5 select 5
+#bindkey ^[6 select 6
+#bindkey ^[7 select 7
+#bindkey ^[8 select 8
+#bindkey ^[9 select 9
+
+# scroll history
+defscrollback 10000
+
+#####
+# tell screen that you term can scroll
+termcapinfo xterm ti@:te@
+# bind Shift+PgUp/PgDn
+bindkey -m "^[[5;2~" stuff ^b
+bindkey -m "^[[6;2~" stuff ^f
+
+# never use window 0
+bind c screen 1
+screen 1
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+

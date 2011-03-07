@@ -1,0 +1,10 @@
+# Aliases for bash
+
+# pwsafe
+alias pwsafe='vim ~/.pwsafe.bfa && clear'
+
+# atmail
+if [ -f ~/.bash_atmail ]; then
+    . ~/.bash_atmail
+fi
+
