@@ -3,8 +3,3 @@ Host herzeleid*
 	
 Host sehnsucht*
 	User tommy
-
-Host linuxhq*
-	Hostname home.linuxhq.dk
-	User yotus
-	Port 9999
