@@ -100,6 +100,19 @@ autocmd BufNewfile *.hh         0r ~/.vim/skeleton.hh
 autocmd BufNewfile *.java       0r ~/.vim/skeleton.java
 autocmd BufNewFile *.html       0r ~/.vim/skeleton.html
 autocmd BufNewfile *.tex        0r ~/.vim/skeleton.tex
+autocmd BufNewfile *.py         0r ~/.vim/skeleton.py
+
+" Python definitions
+autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,with,try,except,finally,def,class
+autocmd FileType python setl autoindent tabstop=4 expandtab shiftwidth=4 softtabstop=4
+
+" Ctrl-H to execute hilighted code
+python << EOL
+import vim
+def EvaluateCurrentRange():
+    eval(compile('\n'.join(vim.current.range),'','exec'),globals())
+EOL
+map <C-h> :py EvaluateCurrentRange()
 
 
 iab THO Tommy Heyde Olsen
