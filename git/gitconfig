@@ -1,0 +1,5 @@
+[user]
+	name = Tommy Heyde Olsen
+	email = tho@danskespil.dk
+[core]
+	excludesfile = /home/tommy/.gitignore

@@ -11,7 +11,7 @@ then
   echo "\tvim"
   echo "\tscreen"
   echo "\tssh"
-  echo "\thg"
+  echo "\tgit"
   echo "\tmutt"
   echo "\tirssi"
   echo ""
@@ -59,9 +59,10 @@ case "$1" in
         ln -f ssh/config ~/.ssh/config
         ;;
 
-      "hg")
-        echo "Installing hg dotfiles"
-        ln -f hg/hgrc ~/.hgrc
+      "git")
+        echo "Installing git dotfiles"
+        ln -f git/gitconfig ~/.gitconfig
+        ln -f git/gitignore ~/.gitignore
         ;;
 
       "mutt")
