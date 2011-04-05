@@ -31,7 +31,7 @@ set tabstop=4									" tabs at 4 spaces
 set shiftwidth=4                                " Number of spaces to use for each step of (auto)indent.
 set textwidth=0 "79								" textwidth
 set noerrorbells								" no fucking bell
-set guioptions=''								" no gui at all
+set guioptions='m'								" no gui at all
 set lazyredraw									" do not update screen while executing commands
 set undolevels=1000  							" undoing 1000 changes should be enough :-)
 set updatecount=200  							" write swap file to disk after each 200 characters
@@ -127,10 +127,14 @@ call pathogen#helptags()
 " disable warnings from NERDCommenter:
 let g:NERDShutUp = 1
 let g:NERDTreeWinSize = 40
+let g:NERDTreeShowBookmarks = 1
+let g:NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 
 " map F8 to NerdTree open/close
 nmap <silent> <F8> :NERDTreeToggle<CR>
 
+" For when you forget to sudo.. Really Write the file.
+cmap w!! w !sudo tee % >/dev/null
 
 iab THO Tommy Heyde Olsen
 iab <br> <br />
