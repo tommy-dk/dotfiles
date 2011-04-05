@@ -36,8 +36,10 @@ case "$1" in
         mkdir -p ~/.vim/backupfiles
         mkdir -p ~/.vim/plugin
         mkdir -p ~/.vim/tmp
+        mkdir -p ~/.vim/colors
+        mkdir -p ~/.vim/autoload
+        mkdir -p ~/.vim/bundle
         ln -f vim/vimrc ~/.vimrc
-        ln -f vim/comments.vim ~/.vim/plugin/comments.vim
         ln -f vim/openssl.vim ~/.vim/plugin/openssl.vim
         ln -f vim/skeleton.c ~/.vim/skeleton.c
         ln -f vim/skeleton.cc ~/.vim/skeleton.cc
@@ -46,6 +48,32 @@ case "$1" in
         ln -f vim/skeleton.html ~/.vim/skeleton.html
         ln -f vim/skeleton.tex ~/.vim/skeleton.tex
         ln -f vim/skeleton.py ~/.vim/skeleton.py
+        ln -f vim/molokai.vim ~/.vim/colors/molokai.vim
+        ln -f vim/xoria256.vim ~/.vim/colors/xoria256.vim
+        ln -f vim/pathogen.vim ~/.vim/autoload/pathogen.vim
+        echo " - Downloading / Updating newest plugins from GitHub"
+        for plugin in nerdtree tcomment_vim
+        do
+            if [ -d ~/.vim/bundle/"$plugin" ]; then
+                # if directory exists
+                cd ~/.vim/bundle/"$plugin"
+                echo " \ - Updating $plugin"
+                git pull -q
+            else
+                # if directory does not exist
+                cd ~/.vim/bundle
+                echo " \ - Downloading $plugin"
+                case "$plugin" in
+                    nerdtree) 
+                        git clone https://github.com/scrooloose/nerdtree.git -q;;
+                    tcomment_vim) 
+                        git clone https://github.com/tomtom/tcomment_vim.git -q;;
+                    *)
+                        # do nothing
+                        ;;
+                esac
+            fi
+        done
         ;;
 
       "screen")
