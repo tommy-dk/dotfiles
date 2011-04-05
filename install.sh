@@ -140,9 +140,10 @@ case "$1" in
 	    rm -f ~/.ssh/config
         ;;
 
-      "hg")
-        echo "Removing hg dotfiles"
-	    rm -f ~/.hgrc
+      "git")
+        echo "Removing git dotfiles"
+	    rm -f ~/.gitconfig
+        rm -f ~/.gitignore
         ;;
 
       "mutt")
