@@ -3,10 +3,10 @@
 set nocompatible
 
 " Appearance
-set bg=dark
 let g:molokai_original = 0
 set t_Co=256
 colorscheme molokai
+set background=dark
 
 " defaults for everything
 set backspace=indent,eol,start					" yeah.
@@ -18,12 +18,15 @@ set showmatch									" where'd the opening ')' go?
 set showmode									" where am i?
 set history=150         						" keep 150 lines of command line history
 set nowrap                                      " wrapping off!
-set background=dark                             " the background is dark
 set hlsearch                                    " when searching hilight the word
 
 set backup										" keep a backup file
 set backupdir=~/.vim/backupfiles/				" backup dir
 set backupext=~         						" backup extension
+
+set undofile
+set undodir=~/.vim/undo
+set undolevels=1000  							" undoing 1000 changes should be enough :-)
 
 set dir=~/.vim/tmp                              " put .swp-files in ~/tmp
 
@@ -33,7 +36,6 @@ set textwidth=0 "79								" textwidth
 set noerrorbells								" no fucking bell
 set guioptions='m'								" no gui at all
 set lazyredraw									" do not update screen while executing commands
-set undolevels=1000  							" undoing 1000 changes should be enough :-)
 set updatecount=200  							" write swap file to disk after each 200 characters
 set updatetime=6000  							" write swap file to disk after 5 inactive seconds
 
@@ -55,62 +57,114 @@ set suffixes=.aux,.bak,.dvi,.gz,.idx,.ps,.swp,.tar
 
 
 " this viminfo feature is really annoying, disable it
-"set viminfo=
+set viminfo=
 
+" case only matters with mixed case expressions
+set ignorecase
+set smartcase
+
+set visualbell
+
+"       t_vb:  terminal's visual bell - turned off to make Vim quiet!
+"       Please use this as to not annoy co-workers in the same room.
+"       Thankyou!  :-)
+set t_vb=
+
+" Loads the filetype plugins, see :help add-filetype-plugin for more info
+filetype plugin indent on
+
+" \ is the default leader character
+let mapleader = ","
+
+" Use pathogen.vim to manage and load plugins
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
+" disable warnings from NERD:
+let g:NERDShutUp = 1
+let g:NERDTreeWinSize = 40
+let g:NERDTreeShowBookmarks = 1
+let g:NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 
 " For Syntax highligting:
 if has("syntax")
 	syntax on
 endif
 
+" Autocmd
+if has("autocmd")
+    " wrap at 79 and autoindent for c, html, perl, and php
+    autocmd BufNewFile,BufRead *.pl,*.cgi,*.php*,*.*html*,*.c,*.h set tw=79 autoindent
 
-" wrap at 79 and autoindent for c, html, perl, and php
-au BufNewFile,BufRead *.pl,*.cgi,*.php*,*.*html*,*.c,*.h set tw=79 autoindent
+    " email gets wrapped at 68 and tabs get expanded
+    autocmd BufNewFile,BufRead /tmp/mutt* set tw=68 et
+
+    " cvs commit messages get wrapped at 68 and tabs get expanded
+    autocmd BufNewFile,BufRead /tmp/cvs* set tw=68 et
+
+    " makefiles and c
+    autocmd BufNewFile,BufRead Makefile,*.c,*.h,*.cpp set ts=4
+
+    " Automatically load .vimrc source when saved
+    autocmd BufWritePost .vimrc source $MYVIMRC
+
+    " Skeleton files:
+    autocmd BufNewfile *.c          0r ~/.vim/skeleton.c
+    autocmd BufNewfile *.h          0r ~/.vim/skeleton.h
+    autocmd BufNewfile *.cc         0r ~/.vim/skeleton.cc
+    autocmd BufNewfile *.hh         0r ~/.vim/skeleton.hh
+    autocmd BufNewfile *.java       0r ~/.vim/skeleton.java
+    autocmd BufNewFile *.html       0r ~/.vim/skeleton.html
+    autocmd BufNewfile *.tex        0r ~/.vim/skeleton.tex
+    autocmd BufNewfile *.py         0r ~/.vim/skeleton.py
+
+    " Python definitions
+    autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,with,try,except,finally,def,class
+    autocmd FileType python setl autoindent tabstop=4 expandtab shiftwidth=4 softtabstop=4
+
+    " Change mode on scripts
+    autocmd BufWritePost * call ModeChange()
+
+    " Update DNS serial with S
+    if has("python")
+        autocmd FileType bindzone map S :python updateDnsSerial()
+    endif
+    " Automatically cd into the directory that the file is in
+    autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
+
+    " Remove any trailing whitespace that is in the file
+    autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
+endif
 
 
-" email gets wrapped at 68 and tabs get expanded
-au BufNewFile,BufRead /tmp/mutt* set tw=68 et
+" Mappings
+"
+" Hide search highlighting
+map <Leader>h :set invhls<CR>
 
-
-" cvs commit messages get wrapped at 68 and tabs get expanded
-au BufNewFile,BufRead /tmp/cvs* set tw=68 et
-
-
-" makefiles and c have tabstops at 8 for portability
-au BufNewFile,BufRead Makefile,*.c,*.h,*.cpp set ts=4
-
+" No Help, please
+nmap <F1> <Esc>
 
 " Mapping for fast Make-compile-edit cycles
 map <F12> :make<CR>
 
-" toggle paste on/off on F11
+" Toggle paste on/off on F11
 set pastetoggle=<F11>
 
-"       visualbell:
-set visualbell
+" Next Tab
+nnoremap <silent> <C-Right> :tabnext<CR>
 
+" Previous Tab
+nnoremap <silent> <C-Left> :tabprevious<CR>
 
-"       t_vb:  terminal's visual bell - turned off to make Vim quiet!
-"       Please use this as to not annoy co-workers in the same room.
-"       Thankyou!  :-)
-set t_vb=       
+" New Tab
+nnoremap <silent> <C-t> :tabnew<CR>
 
-" Loads the filetype plugins, see :help add-filetype-plugin for more info
-filetype plugin indent on
+" Close tab
+" nnoremap <silent> <C-w> :tabclose<CR>
 
-" Skeleton files:
-autocmd BufNewfile *.c          0r ~/.vim/skeleton.c
-autocmd BufNewfile *.h          0r ~/.vim/skeleton.h
-autocmd BufNewfile *.cc         0r ~/.vim/skeleton.cc
-autocmd BufNewfile *.hh         0r ~/.vim/skeleton.hh
-autocmd BufNewfile *.java       0r ~/.vim/skeleton.java
-autocmd BufNewFile *.html       0r ~/.vim/skeleton.html
-autocmd BufNewfile *.tex        0r ~/.vim/skeleton.tex
-autocmd BufNewfile *.py         0r ~/.vim/skeleton.py
-
-" Python definitions
-autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,with,try,except,finally,def,class
-autocmd FileType python setl autoindent tabstop=4 expandtab shiftwidth=4 softtabstop=4
+" map F8 to NerdTree open/close
+nmap <silent> <F8> :NERDTreeToggle<CR>
 
 " Ctrl-H to execute hilighted python code
 python << EOL
@@ -120,27 +174,16 @@ def EvaluateCurrentRange():
 EOL
 map <C-h> :py EvaluateCurrentRange()
 
-" Use pathogen.vim to manage and load plugins
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
-
-" disable warnings from NERDCommenter:
-let g:NERDShutUp = 1
-let g:NERDTreeWinSize = 40
-let g:NERDTreeShowBookmarks = 1
-let g:NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-
-" map F8 to NerdTree open/close
-nmap <silent> <F8> :NERDTreeToggle<CR>
-
 " For when you forget to sudo.. Really Write the file.
 cmap w!! w !sudo tee % >/dev/null
 
 iab THO Tommy Heyde Olsen
 iab <br> <br />
 
+" Internal functions
+"
 " See more: http://www.vim.org/tip_view.php?tip_id=102
-function InsertTabWrapper()
+function! InsertTabWrapper()
     let col = col('.') - 1
     if !col || getline('.')[col - 1] !~ '\k'
         return "\<tab>"
@@ -151,26 +194,15 @@ endfunction
 
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 
-" insert ending bracket when writing a starting bracket, see more:
-" http://www.vim.org/tip_view.php?tip_id=153
-" inoremap <F7> :inoremap {<CR><BS>}<ESC>ko!<cr>
-" Trigger_Define('<F7>', 'inoremap { {}<Left>')
-" inoremap { {<CR><BS>}<ESC>ko
-
 " whenever you type "%" you jump to the matching object AND you visually
 " select all the text in between. See more:
 " http://www.vim.org/tip_view.php?tip_id=6
 noremap % v%
 
-" window mangling, see more: http://www.vim.org/tip_view.php?tip_id=173
-set winminheight=0
-map <C-J> <C-W>j<C-W>_
-map <C-K> <C-W>k<C-W>_
-
 " automatically give executable permissions if file begins with #! and contains
 " '/bin/' in the path
-
-function ModeChange()
+" Uses an autocmd
+function! ModeChange()
   if getline(1) =~ "^#!"
     if getline(1) =~ "/bin/"
       silent !chmod a+x <afile>
@@ -178,20 +210,13 @@ function ModeChange()
   endif
 endfunction
 
-au BufWritePost * call ModeChange()
-
 " automatically update SOA records in DNS zones
-"
 if has("python")
-
-autocmd FileType bindzone map S :python updateDnsSerial()
-
 python << EOF
 def updateDnsSerial():
    import re, time, vim, string
 
    maxSearch = 20
-
    cb = vim.current.buffer
    foundSoa = 0
    for i in xrange(0, min(maxSearch, len(cb))):
@@ -219,15 +244,6 @@ def updateDnsSerial():
       if re.match(r'^@\s+IN\s+SOA\s+', line): foundSoa = 1
 EOF
 endif
-
-" commentify code:
-" ctrl-c to comment a single line
-" ctrl-x to un-comment a single line
-" shift-v and select multiple lines, then ctrl-c to comment the selected multiple lines
-" shift-v and select multiple lines, then ctrl-x to un-comment the selected multiple lines 
-"
-
-
 
 " Transparent editing of gpg encrypted files.
 " By Wouter Hanegraaff <wouter@blub.net>
@@ -265,7 +281,7 @@ augroup END
 
 
 " password generator
-function GeneratePassword()
+function! GeneratePassword()
     :r!pwgen
 endfunction
 
@@ -323,9 +339,9 @@ function! OpenURL(url)
   redraw!
 endfunction
 command! -nargs=1 OpenURL :call OpenURL(<q-args>)
-" open URL under cursor in browser
-nnoremap gb :OpenURL <cfile><CR>
-nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
-nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
-nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
 
+" open URL under cursor in browser
+nnoremap gu :OpenURL <cfile><CR>
+nnoremap gg :OpenURL http://www.google.com/search?q=<cword><CR>
+nnoremap gw :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
+nnoremap gp :OpenURL http://php.net/<cword><CR>

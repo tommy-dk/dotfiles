@@ -39,6 +39,7 @@ case "$1" in
         mkdir -p ~/.vim/colors
         mkdir -p ~/.vim/autoload
         mkdir -p ~/.vim/bundle
+        mkdir -p ~/.vim/undo
         ln -f vim/vimrc ~/.vimrc
         ln -f vim/openssl.vim ~/.vim/plugin/openssl.vim
         ln -f vim/skeleton.c ~/.vim/skeleton.c
