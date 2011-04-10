@@ -24,8 +24,10 @@ set backup										" keep a backup file
 set backupdir=~/.vim/backupfiles/				" backup dir
 set backupext=~         						" backup extension
 
-set undofile
-set undodir=~/.vim/undo
+if has("undofile")
+    set undofile
+    set undodir=~/.vim/undo
+endif
 set undolevels=1000  							" undoing 1000 changes should be enough :-)
 
 set dir=~/.vim/tmp                              " put .swp-files in ~/tmp
