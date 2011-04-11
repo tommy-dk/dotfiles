@@ -1,5 +1,7 @@
 #!/bin/sh
 
+GIT=$(which git)
+
 # Script for installing dotfiles
 
 if [ ! -n "$1" ] || [ ! -n "$2" ]
@@ -16,7 +18,7 @@ then
   echo "irssi"
   echo ""
   exit 1
-fi  
+fi
 
 case "$1" in
 
@@ -31,6 +33,10 @@ case "$1" in
         ;;
 
       "vim")
+        if [ ! -x $GIT]; then
+            echo "Install git to perform vim installation"
+            exit 1
+        fi
         echo "Installing vim dotfiles"
         mkdir -p ~/.vim
         mkdir -p ~/.vim/backupfiles
@@ -53,7 +59,7 @@ case "$1" in
         ln -f vim/xoria256.vim ~/.vim/colors/xoria256.vim
         ln -f vim/pathogen.vim ~/.vim/autoload/pathogen.vim
         echo " - Downloading / Updating newest plugins from GitHub"
-        for plugin in nerdtree tcomment_vim
+        for plugin in nerdtree tcomment_vim vim-fugitive supertab
         do
             if [ -d ~/.vim/bundle/"$plugin" ]; then
                 # if directory exists
@@ -65,10 +71,14 @@ case "$1" in
                 cd ~/.vim/bundle
                 echo " \ - Downloading $plugin"
                 case "$plugin" in
-                    nerdtree) 
+                    nerdtree)
                         git clone https://github.com/scrooloose/nerdtree.git -q;;
-                    tcomment_vim) 
+                    tcomment_vim)
                         git clone https://github.com/tomtom/tcomment_vim.git -q;;
+                    vim-fugitive)
+                        git clone https://github.com/tpope/vim-fugitive.git -q;;
+                    supertab)
+                        git clone https://github.com/ervandew/supertab.git -q;;
                     *)
                         # do nothing
                         ;;
