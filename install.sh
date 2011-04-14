@@ -59,7 +59,7 @@ case "$1" in
         ln -f vim/xoria256.vim ~/.vim/colors/xoria256.vim
         ln -f vim/pathogen.vim ~/.vim/autoload/pathogen.vim
         echo " - Downloading / Updating newest plugins from GitHub"
-        for plugin in nerdtree tcomment_vim vim-fugitive supertab
+        for plugin in nerdtree tcomment_vim vim-fugitive supertab vim-indent-guides
         do
             if [ -d ~/.vim/bundle/"$plugin" ]; then
                 # if directory exists
@@ -79,6 +79,8 @@ case "$1" in
                         git clone https://github.com/tpope/vim-fugitive.git -q;;
                     supertab)
                         git clone https://github.com/ervandew/supertab.git -q;;
+                    vim-indent-guides)
+                        git clone https://github.com/nathanaelkane/vim-indent-guides.git;;
                     *)
                         # do nothing
                         ;;
