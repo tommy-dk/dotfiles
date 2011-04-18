@@ -33,7 +33,7 @@ case "$1" in
         ;;
 
       "vim")
-        if [ ! -x $GIT]; then
+        if [ ! -x "$GIT" ]; then
             echo "Install git to perform vim installation"
             exit 1
         fi
