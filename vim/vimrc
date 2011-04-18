@@ -4,7 +4,30 @@
 "
 " CUSTOM KEY BINDINGS:
 "
+" F1                Esc
+" F8                Toggle NerdTree on/off
+" F11               Toggle paste on/off
+" F12               :make
 "
+" Leader: , (comma)
+"
+" <leader>ig        Toggle indent guides on/off
+" <leader>h         Hide search highlighting
+" <leader>dns       Update/increment serialnumber in a bindzone
+"
+" Ctrl-t            New tab
+" Ctrl-Right        Next tab
+" Ctrl-Left         Previous tab
+" Ctrl-h            Execute highlighted Python code
+" Ctrl-k            Insert random generated password
+" :w!!              Really write! When you forget to sudo first...
+"
+" gu                Open URL under cursor
+" gg                Search Google for word under cursor
+" gw                Search Wikipedia for word under cursor
+" gp                Search PHP.net for word under cursor
+"
+
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
@@ -83,6 +106,11 @@ set t_vb=
 " Loads the filetype plugins, see :help add-filetype-plugin for more info
 filetype plugin indent on
 
+" GUI
+if has('gui_running')
+  source $VIMRUNTIME/mswin.vim
+endif
+
 " \ is the default leader character
 let mapleader = ","
 
@@ -115,7 +143,7 @@ else
             return "\<c-p>"
         endif
     endfunction
-    inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+    inoremap <tab> <c-r>=InsertTabWrapper()<CR>
 endif
 
 
@@ -158,10 +186,11 @@ if has("autocmd")
     " Change mode on scripts
     autocmd BufWritePost * call ModeChange()
 
-    " Update DNS serial with S
+    " Update / increment DNS serial with ,dns
     if has("python")
-        autocmd FileType bindzone map S :python updateDnsSerial()
+        autocmd FileType bindzone map <leader>dns :python updateDnsSerial()<CR>
     endif
+
     " Automatically cd into the directory that the file is in
     autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
 
@@ -170,8 +199,16 @@ if has("autocmd")
 endif
 
 
+"
 " Mappings
 "
+
+" open URL under cursor in browser
+nnoremap gu :OpenURL <cfile><CR>
+nnoremap gg :OpenURL http://www.google.com/search?q=<cword><CR>
+nnoremap gw :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
+nnoremap gp :OpenURL http://php.net/<cword><CR>
+
 " Hide search highlighting
 map <Leader>h :set invhls<CR>
 
@@ -198,13 +235,15 @@ nnoremap <silent> <C-t> :tabnew<CR>
 
 " map F8 to NerdTree open/close
 nmap <silent> <F8> :NERDTreeToggle<CR>
+map <C-k> :python GenPassword()
+"imap <C-k> <Esc>:python GenPassword()<CR>9li
 
-" Ctrl-H to execute hilighted python code
-python << EOL
+" Ctrl-h to execute hilighted python code
+python << EOF
 import vim
 def EvaluateCurrentRange():
     eval(compile('\n'.join(vim.current.range),'','exec'),globals())
-EOL
+EOF
 map <C-h> :py EvaluateCurrentRange()
 
 " For when you forget to sudo.. Really Write the file.
@@ -235,34 +274,34 @@ endfunction
 if has("python")
 python << EOF
 def updateDnsSerial():
-   import re, time, vim, string
+    import re, time, vim, string
 
-   maxSearch = 20
-   cb = vim.current.buffer
-   foundSoa = 0
-   for i in xrange(0, min(maxSearch, len(cb))):
-      line = cb[i]
-      if foundSoa:
-         #  look for serial
-         rx = re.match(r'^\s*(\d+).*', line)
-         if not rx:
-            print 'Unable to find Serial'
-            return
-         serial = rx.group(1)
-         #  generate new serial
-         now = time.time()
-         today = time.strftime('%Y%m%d01', time.localtime(now))
-         todayVal = long(today)
-         serialVal = long(serial)
-         if todayVal <= serialVal: todayVal = serialVal + 1
+    maxSearch = 20
+    cb = vim.current.buffer
+    foundSoa = 0
+    for i in xrange(0, min(maxSearch, len(cb))):
+        line = cb[i]
+        if foundSoa:
+            #  look for serial
+            rx = re.match(r'^\s*(\d+).*', line)
+            if not rx:
+                print 'Unable to find Serial'
+                return
+            serial = rx.group(1)
+            #  generate new serial
+            now = time.time()
+            today = time.strftime('%Y%m%d01', time.localtime(now))
+            todayVal = long(today)
+            serialVal = long(serial)
+            if todayVal <= serialVal: todayVal = serialVal + 1
 
-         #  update serial
-         cb[i] = string.replace(line, serial, '%d' % todayVal)
+            #  update serial
+            cb[i] = string.replace(line, serial, '%d' % todayVal)
 
-         #  display update string
-         print 'Updated serial from "%s" to "%d"' % ( serial, todayVal )
-         break
-      if re.match(r'^@\s+IN\s+SOA\s+', line): foundSoa = 1
+            #  display update string
+            print 'Updated serial from "%s" to "%d"' % ( serial, todayVal )
+            break
+        if re.match(r'^@.+IN\s+SOA\s+', line): foundSoa = 1
 EOF
 endif
 
@@ -300,14 +339,14 @@ augroup encrypted
     autocmd BufWritePost,FileWritePost  *.gpg set nobin
 augroup END
 
-
 " password generator
-function! GeneratePassword()
-    :r!pwgen
-endfunction
-
-" press ctrl-p to insert a generated password
-autocmd BufEnter *.txt.gpg map <c-p> :silent call GeneratePassword()<cr>
+python << EOF
+from random import choice
+import vim
+import string
+def GenPassword(length=8, chars=string.letters + string.digits):
+    vim.current.line = ''.join([choice(chars) for i in range(length)])
+EOF
 
 " no comments in configuration files
 " http://www.debian-administration.org/articles/616
@@ -328,6 +367,7 @@ if has('statusline')
     set statusline+=%=%-14.(%l,%c%V%)\ %p%% " Right aligned file nav info
 endif
 
+" Helper function for opening urls under the cursor
 function! OpenURL(url)
   if has("win32")
     exe "!start cmd /cstart /b ".a:url.""
@@ -340,8 +380,3 @@ function! OpenURL(url)
 endfunction
 command! -nargs=1 OpenURL :call OpenURL(<q-args>)
 
-" open URL under cursor in browser
-nnoremap gu :OpenURL <cfile><CR>
-nnoremap gg :OpenURL http://www.google.com/search?q=<cword><CR>
-nnoremap gw :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
-nnoremap gp :OpenURL http://php.net/<cword><CR>
