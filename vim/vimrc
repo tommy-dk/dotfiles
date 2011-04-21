@@ -18,6 +18,8 @@
 " Ctrl-t            New tab
 " Ctrl-Right        Next tab
 " Ctrl-Left         Previous tab
+" Ctrl-Up           Move selected line(s) up
+" Ctrl-Down         Move selected line(s) down
 " Ctrl-h            Execute highlighted Python code
 " Ctrl-k            Insert random generated password
 " :w!!              Really write! When you forget to sudo first...
@@ -220,6 +222,14 @@ map <F12> :make<CR>
 
 " Toggle paste on/off on F11
 set pastetoggle=<F11>
+
+" Move single line
+nmap <Ctrl-Up> [e
+nmap <Ctrl-Down> ]e
+
+" Move multiple lines
+vmap <Ctrl-Up> [egv
+vmap <Ctrl-Down> ]egv
 
 " Next Tab
 nnoremap <silent> <C-Right> :tabnext<CR>
