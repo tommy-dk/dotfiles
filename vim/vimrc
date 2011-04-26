@@ -40,9 +40,23 @@ set t_Co=256
 colorscheme molokai
 set background=dark
 
+" Statusline configuration
+if has('statusline')
+    set laststatus=2
+
+    " Broken down into easily includeable segments
+    set statusline=%<%f\ " Filename
+    set statusline+=%w%h%m%r " Options
+    set statusline+=%{fugitive#statusline()} " Git Hotness
+    set statusline+=\ [%{&ff}/%Y] " filetype
+    set statusline+=\ [%{getcwd()}] " current dir
+    "set statusline+=\ [A=\%03.3b/H=\%02.2B] " ASCII / Hexadecimal value of char
+    set statusline+=%=%-14.(%l,%c%V%)\ %p%% " Right aligned file nav info
+endif
+
+
 " defaults for everything
 set backspace=indent,eol,start					" yeah.
-set laststatus=2								" always
 set nostartofline								" yeah, sure
 set ruler										" always show ruler
 set showcmd										" tell me what i'm doing
@@ -362,20 +376,6 @@ EOF
 " http://www.debian-administration.org/articles/616
 "set fdm=expr
 "set fde=getline(v:lnum)=~'^\\s*#'?1:getline(prevnonblank(v:lnum))=~'^\\s*#'?1:getline(nextnonblank(v:lnum))=~'^\\s*#'?1:0
-
-" Statusline configuration
-if has('statusline')
-    set laststatus=2
-
-    " Broken down into easily includeable segments
-    set statusline=%<%f\ " Filename
-    set statusline+=%w%h%m%r " Options
-    set statusline+=%{fugitive#statusline()} " Git Hotness
-    set statusline+=\ [%{&ff}/%Y] " filetype
-    set statusline+=\ [%{getcwd()}] " current dir
-    "set statusline+=\ [A=\%03.3b/H=\%02.2B] " ASCII / Hexadecimal value of char
-    set statusline+=%=%-14.(%l,%c%V%)\ %p%% " Right aligned file nav info
-endif
 
 " Helper function for opening urls under the cursor
 function! OpenURL(url)
