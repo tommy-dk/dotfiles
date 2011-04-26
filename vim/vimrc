@@ -224,12 +224,12 @@ map <F12> :make<CR>
 set pastetoggle=<F11>
 
 " Move single line
-nmap <Ctrl-Up> [e
-nmap <Ctrl-Down> ]e
+nmap <C-Up> [e
+nmap <C-Down> ]e
 
 " Move multiple lines
-vmap <Ctrl-Up> [egv
-vmap <Ctrl-Down> ]egv
+vmap <C-Up> [egv
+vmap <C-Down> ]egv
 
 " Next Tab
 nnoremap <silent> <C-Right> :tabnext<CR>
