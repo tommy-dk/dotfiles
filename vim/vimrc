@@ -5,6 +5,7 @@
 " CUSTOM KEY BINDINGS:
 "
 " F1                Esc
+" F2                Toogle Gundo tree on/off
 " F8                Toggle NerdTree on/off
 " F11               Toggle paste on/off
 " F12               :make
@@ -14,6 +15,8 @@
 " <leader>ig        Toggle indent guides on/off
 " <leader>h         Hide search highlighting
 " <leader>dns       Update/increment serialnumber in a bindzone
+" <leader>gv        Open gitv in file mode
+" <leader>gV        Open gitv in browse mode
 "
 " Ctrl-t            New tab
 " Ctrl-Right        Next tab
@@ -208,7 +211,7 @@ if has("autocmd")
     endif
 
     " Automatically cd into the directory that the file is in
-    autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
+    "autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
 
     " Remove any trailing whitespace that is in the file
     autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
@@ -230,6 +233,9 @@ map <Leader>h :set invhls<CR>
 
 " No Help, please
 nmap <F1> <Esc>
+
+" Toggle Gundo tree
+nnoremap <F2> :GundoToggle<CR>
 
 " Mapping for fast Make-compile-edit cycles
 map <F12> :make<CR>
@@ -262,13 +268,20 @@ nmap <silent> <F8> :NERDTreeToggle<CR>
 map <C-k> :python GenPassword()
 "imap <C-k> <Esc>:python GenPassword()<CR>9li
 
+" git / gitv shortcuts
+nmap <leader>gv :Gitv --all<cr>
+nmap <leader>gV :Gitv! --all<cr>
+cabbrev git Git
+highlight diffAdded guifg=#00bf00
+highlight diffRemoved guifg=#bf0000
+
 " Ctrl-h to execute hilighted python code
 python << EOF
 import vim
 def EvaluateCurrentRange():
     eval(compile('\n'.join(vim.current.range),'','exec'),globals())
 EOF
-map <C-h> :py EvaluateCurrentRange()
+map <C-h> :py EvaluateCurrentRange()<CR>
 
 " For when you forget to sudo.. Really Write the file.
 cmap w!! w !sudo tee % >/dev/null
