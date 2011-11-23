@@ -59,7 +59,7 @@ case "$1" in
         ln -f vim/xoria256.vim ~/.vim/colors/xoria256.vim
         ln -f vim/pathogen.vim ~/.vim/autoload/pathogen.vim
         echo " - Downloading / Updating newest plugins from GitHub"
-        for plugin in nerdtree tcomment_vim vim-fugitive supertab vim-indent-guides vim-unimpaired gitv gundo.vim
+        for plugin in nerdtree tcomment_vim vim-fugitive supertab vim-indent-guides vim-unimpaired gitv gundo.vim MatchTag
         do
             if [ -d ~/.vim/bundle/"$plugin" ]; then
                 # if directory exists
@@ -72,21 +72,23 @@ case "$1" in
                 echo " \ - Downloading $plugin"
                 case "$plugin" in
                     nerdtree)
-                        git clone https://github.com/scrooloose/nerdtree.git -q;;
+                        git clone http://github.com/scrooloose/nerdtree.git -q;;
                     tcomment_vim)
-                        git clone https://github.com/tomtom/tcomment_vim.git -q;;
+                        git clone http://github.com/tomtom/tcomment_vim.git -q;;
                     vim-fugitive)
-                        git clone https://github.com/tpope/vim-fugitive.git -q;;
+                        git clone http://github.com/tpope/vim-fugitive.git -q;;
                     supertab)
-                        git clone https://github.com/ervandew/supertab.git -q;;
+                        git clone http://github.com/ervandew/supertab.git -q;;
                     vim-indent-guides)
-                        git clone https://github.com/nathanaelkane/vim-indent-guides.git -q;;
+                        git clone http://github.com/nathanaelkane/vim-indent-guides.git -q;;
                     vim-unimpaired)
-                        git clone https://github.com/tpope/vim-unimpaired.git -q;;
+                        git clone http://github.com/tpope/vim-unimpaired.git -q;;
                     gitv)
-                        git clone https://github.com/gregsexton/gitv.git -q;;
+                        git clone http://github.com/gregsexton/gitv.git -q;;
                     gundo.vim)
                         git clone http://github.com/sjl/gundo.vim.git -q;;
+                    MatchTag)
+                        git clone http://github.com/gregsexton/MatchTag.git -q;;
                     *)
                         # do nothing
                         ;;
