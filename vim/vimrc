@@ -6,6 +6,7 @@
 "
 " F1                Esc
 " F2                Toogle Gundo tree on/off
+" F3                Toggle relative/absolute numbering
 " F8                Toggle NerdTree on/off
 " F11               Toggle paste on/off
 " F12               :make
@@ -147,6 +148,9 @@ let g:NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.sv
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
+
+" Toggle numbering
+let g:NumberToggleTrigger="<F3>"
 
 " SuperTab, Tab completion ...
 if version >= 700 && exists("g:SuperTabDefaultCompletionType")
