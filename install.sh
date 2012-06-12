@@ -59,7 +59,7 @@ case "$1" in
         ln -f vim/xoria256.vim ~/.vim/colors/xoria256.vim
         ln -f vim/pathogen.vim ~/.vim/autoload/pathogen.vim
         echo " - Downloading / Updating newest plugins from GitHub"
-        for plugin in nerdtree tcomment_vim vim-fugitive supertab vim-indent-guides vim-unimpaired gitv gundo.vim MatchTag numbertoggle
+        for plugin in nerdtree tcomment_vim vim-fugitive supertab vim-indent-guides vim-unimpaired gitv gundo.vim MatchTag vim-numbertoggle
         do
             if [ -d ~/.vim/bundle/"$plugin" ]; then
                 # if directory exists
@@ -89,7 +89,7 @@ case "$1" in
                         git clone http://github.com/sjl/gundo.vim.git -q;;
                     MatchTag)
                         git clone http://github.com/gregsexton/MatchTag.git -q;;
-                    numbertoggle)
+                    vim-numbertoggle)
                         git clone http://github.com/jeffkreeftmeijer/vim-numbertoggle.git -q;;
                     *)
                         # do nothing
