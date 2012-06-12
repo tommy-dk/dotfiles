@@ -178,7 +178,8 @@ endif
 " Autocmd
 if has("autocmd")
     " wrap at 79 and autoindent for c, html, perl, and php
-    autocmd BufNewFile,BufRead *.pl,*.cgi,*.php*,*.*html*,*.c,*.h set tw=79 autoindent
+    autocmd BufNewFile,BufRead *.pl,*.cgi,*.c,*.h set tw=79 autoindent
+    autocmd BufNewFile,BufRead *.*html*,*.css,*.js,*.php set tw=300 autoindent
 
     " email gets wrapped at 68 and tabs get expanded
     autocmd BufNewFile,BufRead /tmp/mutt* set tw=68 et
