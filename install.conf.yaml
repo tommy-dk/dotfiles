@@ -1,0 +1,10 @@
+- defaults:
+    link:
+      relink: true
+
+- clean: ['~']
+
+- link:
+    ~/.screenrc: screenrc
+    ~/.vim: vim
+    ~/.vimrc: vimrc
