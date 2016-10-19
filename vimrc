@@ -60,6 +60,7 @@ set nocompatible
 set t_Co=256
 
 " Color scheme
+colorscheme molokai
 let g:molokai_original = 1
 let g:rehash256 = 1
 
@@ -199,11 +200,8 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.pl,*.cgi,*.c,*.h set tw=79 autoindent
     autocmd BufNewFile,BufRead *.*html*,*.css,*.js,*.php set tw=300 autoindent
 
-    " email gets wrapped at 68 and tabs get expanded
-    autocmd BufNewFile,BufRead /tmp/mutt* set tw=68 et
-
-    " cvs commit messages get wrapped at 68 and tabs get expanded
-    autocmd BufNewFile,BufRead /tmp/cvs* set tw=68 et
+    " nice yaml files
+    autocmd FileType yaml setlocal ts=4 sts=4 sw=4 expandtab
 
     " makefiles and c
     autocmd BufNewFile,BufRead Makefile,*.c,*.h,*.cpp set ts=4
@@ -298,13 +296,17 @@ cabbrev git Git
 highlight diffAdded guifg=#00bf00
 highlight diffRemoved guifg=#bf0000
 
+" F9 to execute current buffer with python
+nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
 " Ctrl-h to execute hilighted python code
-python << EOF
-import vim
-def EvaluateCurrentRange():
-    eval(compile('\n'.join(vim.current.range),'','exec'),globals())
+if has("python")
+    python << EOF
+    import vim
+    def EvaluateCurrentRange():
+        eval(compile('\n'.join(vim.current.range),'','exec'),globals())
 EOF
 map <C-h> :py EvaluateCurrentRange()<CR>
+endif
 
 " For when you forget to sudo.. Really Write the file.
 cmap w!! w !sudo tee % >/dev/null
@@ -400,13 +402,15 @@ augroup encrypted
 augroup END
 
 " password generator
-python << EOF
-from random import choice
-import vim
-import string
-def GenPassword(length=8, chars=string.letters + string.digits):
-    vim.current.line = ''.join([choice(chars) for i in range(length)])
+if has("python")
+    python << EOF
+    from random import choice
+    import vim
+    import string
+    def GenPassword(length=8, chars=string.letters + string.digits):
+        vim.current.line = ''.join([choice(chars) for i in range(length)])
 EOF
+endif
 
 " no comments in configuration files
 " http://www.debian-administration.org/articles/616
@@ -425,4 +429,3 @@ function! OpenURL(url)
   redraw!
 endfunction
 command! -nargs=1 OpenURL :call OpenURL(<q-args>)
-
