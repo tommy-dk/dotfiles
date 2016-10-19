@@ -34,15 +34,40 @@
 " gp                Search PHP.net for word under cursor
 "
 
+" Load plugins
+" https://github.com/junegunn/vim-plug
+call plug#begin()
+Plug 'tomasr/molokai'
+Plug 'scrooloose/nerdtree'
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-unimpaired'
+Plug 'ervandew/supertab'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'gregsexton/gitv'
+Plug 'sjl/gundo.vim'
+Plug 'gregsexton/MatchTag'
+Plug 'chase/vim-ansible-yaml'
+Plug 'Townk/vim-autoclose'
+call plug#end()
+
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
 " Appearance
-let g:molokai_original = 0
 set t_Co=256
-colorscheme molokai
+
+" Color scheme
+let g:molokai_original = 1
+let g:rehash256 = 1
+
+" let g:lucius_style = dark
+" colorscheme lucius
+
 set background=dark
+
 
 " Statusline configuration
 if has('statusline')
@@ -134,10 +159,6 @@ endif
 " \ is the default leader character
 let mapleader = ","
 
-" Use pathogen.vim to manage and load plugins
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
-
 " disable warnings from NERD:
 let g:NERDShutUp = 1
 let g:NERDTreeWinSize = 40
@@ -148,9 +169,6 @@ let g:NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.sv
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
-
-" Toggle numbering
-let g:NumberToggleTrigger="<F3>"
 
 " SuperTab, Tab completion ...
 if version >= 700 && exists("g:SuperTabDefaultCompletionType")
