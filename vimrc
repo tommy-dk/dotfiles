@@ -300,10 +300,10 @@ highlight diffRemoved guifg=#bf0000
 nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
 " Ctrl-h to execute hilighted python code
 if has("python")
-    python << EOF
-    import vim
-    def EvaluateCurrentRange():
-        eval(compile('\n'.join(vim.current.range),'','exec'),globals())
+python << EOF
+import vim
+def EvaluateCurrentRange():
+    eval(compile('\n'.join(vim.current.range),'','exec'),globals())
 EOF
 map <C-h> :py EvaluateCurrentRange()<CR>
 endif
@@ -403,12 +403,12 @@ augroup END
 
 " password generator
 if has("python")
-    python << EOF
-    from random import choice
-    import vim
-    import string
-    def GenPassword(length=8, chars=string.letters + string.digits):
-        vim.current.line = ''.join([choice(chars) for i in range(length)])
+python << EOF
+from random import choice
+import vim
+import string
+def GenPassword(length=8, chars=string.letters + string.digits):
+    vim.current.line = ''.join([choice(chars) for i in range(length)])
 EOF
 endif
 
