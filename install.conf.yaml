@@ -21,6 +21,9 @@
     ~/.gitconfig: git/gitconfig
     ~/.gitignore: git/gitignore
 
+    # shell
+    ~/.inputrc: shell/inputrc
+
 
 - shell:
     - [mkdir -p ~/.vim/backupfiles ~/.vim/tmp ~/.vim/undo, Creating directories for vim]

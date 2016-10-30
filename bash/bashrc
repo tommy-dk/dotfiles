@@ -6,10 +6,14 @@
 [ -z "$PS1" ] && return
 
 # don't put duplicate lines in the history. See bash(1) for more options
-HISTCONTROL=ignoredups:ignorespace
+HISTCONTROL="ignoredups:ignorespace:ignoreboth"
+HISTIGNORE="&:[ ]*:exit"
 
-# append to the history file, don't overwrite it
-shopt -s histappend
+shopt -s histappend     # append to the history file, don't overwrite it
+shopt -s cmdhist        # multiline commands is added to history as one command
+shopt -s cdspell        # try to correct typos in path
+shopt -s dotglob        # include dotfiles in path expansion
+shopt -s hostcomplete   # try to autocomplete hostnames
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000

@@ -12,6 +12,9 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# serve local directory over http
+alias webserver="python -m SimpleHTTPServer"
+
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
