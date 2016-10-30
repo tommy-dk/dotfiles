@@ -5,9 +5,22 @@
 - clean: ['~']
 
 - link:
+    # vim
     ~/.vim: vim
     ~/.vimrc: vimrc
-#  ~/.screenrc: screenrc
+
+    # screen
+    ~/.screenrc: screen/screenrc
+
+    # bash
+    ~/.bashrc: bash/bashrc
+    ~/.bash_profile: bash/bash_profile
+    ~/.bash_aliases: bash/bash_aliases
+
+    # git
+    ~/.gitconfig: git/gitconfig
+    ~/.gitignore: git/gitignore
+
 
 - shell:
     - [mkdir -p ~/.vim/backupfiles ~/.vim/tmp ~/.vim/undo, Creating directories for vim]

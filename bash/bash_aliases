@@ -38,8 +38,6 @@ fi
 # pwsafe
 alias pwsafe='vim ~/.pwsafe.bfa && clear'
 
-# atmail
-if [ -f ~/.bash_atmail ]; then
-    . ~/.bash_atmail
+if [ -f ~/.bash_local ]; then
+    . ~/.bash_local
 fi
-
