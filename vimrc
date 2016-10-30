@@ -7,6 +7,7 @@
 " F1                Esc
 " F2                Toogle Gundo tree on/off
 " F3                Toggle relative/absolute numbering
+" F5                Clear CtrlP cache
 " F8                Toggle NerdTree on/off
 " F11               Toggle paste on/off
 " F12               :make
@@ -27,6 +28,7 @@
 " Ctrl-h            Execute highlighted Python code
 " Ctrl-k            Insert random generated password
 " :w!!              Really write! When you forget to sudo first...
+" Ctrl-P            Start fuzzy finder
 "
 " gu                Open URL under cursor
 " gg                Search Google for word under cursor
@@ -52,6 +54,7 @@ Plug 'chase/vim-ansible-yaml'
 Plug 'Townk/vim-autoclose'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'ctrlpvim/ctrlp.vim'
 call plug#end()
 
 " Plugin settings
