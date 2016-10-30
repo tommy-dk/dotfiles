@@ -50,7 +50,15 @@ Plug 'sjl/gundo.vim'
 Plug 'gregsexton/MatchTag'
 Plug 'chase/vim-ansible-yaml'
 Plug 'Townk/vim-autoclose'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 call plug#end()
+
+" Plugin settings
+let g:airline_theme = 'badwolf'
+let g:airline_powerline_fonts = 1
+
+set laststatus=2
 
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
@@ -64,26 +72,10 @@ colorscheme molokai
 let g:molokai_original = 1
 let g:rehash256 = 1
 
-" let g:lucius_style = dark
 " colorscheme lucius
+" let g:lucius_style = dark
 
 set background=dark
-
-
-" Statusline configuration
-if has('statusline')
-    set laststatus=2
-
-    " Broken down into easily includeable segments
-    set statusline=%<%f\ " Filename
-    set statusline+=%w%h%m%r " Options
-    set statusline+=%{fugitive#statusline()} " Git Hotness
-    set statusline+=\ [%{&ff}/%Y] " filetype
-    set statusline+=\ [%{getcwd()}] " current dir
-    "set statusline+=\ [A=\%03.3b/H=\%02.2B] " ASCII / Hexadecimal value of char
-    set statusline+=%=%-14.(%l,%c%V%)\ %p%% " Right aligned file nav info
-endif
-
 
 " defaults for everything
 set backspace=indent,eol,start					" yeah.
@@ -259,7 +251,7 @@ nmap <F1> <Esc>
 nnoremap <F2> :GundoToggle<CR>
 
 " Mapping for fast Make-compile-edit cycles
-map <F12> :make<CR>
+" map <F12> :make<CR>
 
 " Toggle paste on/off on F11
 set pastetoggle=<F11>
