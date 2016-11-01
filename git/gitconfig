@@ -1,8 +1,7 @@
-[user]
-	name = Tommy Heyde Olsen
-	email = tho@danskespil.dk
+[include]
+    path = ~/.gitconfig_local
 [core]
-	excludesfile = /home/tommy/.gitignore
+	excludesfile = ~/.gitignore
 [diff]
 	tool = vimdiff
 [difftool]
