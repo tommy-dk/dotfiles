@@ -4,6 +4,11 @@
 
 - clean: ['~']
 
+- shell:
+    - [mkdir -p ~/.tmux/plugins, Creating plugins directory for tmux]
+    - [mkdir -p ~/.vim/backupfiles ~/.vim/tmp ~/.vim/undo, Creating directories for vim]
+    - [git submodule update --init --recursive, Installing submodules]
+
 - link:
     # vim
     ~/.vim: vim
@@ -24,6 +29,6 @@
     # shell
     ~/.inputrc: shell/inputrc
 
-
-- shell:
-    - [mkdir -p ~/.vim/backupfiles ~/.vim/tmp ~/.vim/undo, Creating directories for vim]
+    # tmux
+    ~/.tmux.conf: tmux/tmux.conf
+    ~/.tmux/plugins/tpm: tmux/tpm
