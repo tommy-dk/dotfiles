@@ -55,13 +55,28 @@ Plug 'Townk/vim-autoclose'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'Shougo/neocomplete.vim'
+Plug 'breard-r/vim-dnsserial'
 call plug#end()
 
 " Plugin settings
+
+" disable warnings from NERDTree
+let g:NERDShutUp = 1
+let g:NERDTreeWinSize = 40
+let g:NERDTreeShowBookmarks = 1
+let g:NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+
+" Theme settings
+set laststatus=2
 let g:airline_theme = 'badwolf'
 let g:airline_powerline_fonts = 1
 
-set laststatus=2
+" Neocomplete settings
+let g:acp_enableAtStartup = 0                               " Disable AutoComplPop.
+let g:neocomplete#enable_at_startup = 1                     " Use neocomplete.
+let g:neocomplete#enable_smart_case = 1                     " Use smartcase.
+let g:neocomplete#sources#syntax#min_keyword_length = 3     " Set minimum syntax keyword length.
 
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
@@ -155,34 +170,11 @@ endif
 " \ is the default leader character
 let mapleader = ","
 
-" disable warnings from NERD:
-let g:NERDShutUp = 1
-let g:NERDTreeWinSize = 40
-let g:NERDTreeShowBookmarks = 1
-let g:NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 
 " vim indent guides
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level = 2
 let g:indent_guides_guide_size = 1
-
-" SuperTab, Tab completion ...
-if version >= 700 && exists("g:SuperTabDefaultCompletionType")
-    "let g:SuperTabDefaultCompletionType = "context"
-    set completeopt=menu
-else
-    " See more: http://www.vim.org/tip_view.php?tip_id=102
-    function! InsertTabWrapper()
-        let col = col('.') - 1
-        if !col || getline('.')[col - 1] !~ '\k'
-            return "\<tab>"
-        else
-            return "\<c-p>"
-        endif
-    endfunction
-    inoremap <tab> <c-r>=InsertTabWrapper()<CR>
-endif
-
 
 " For Syntax highligting:
 if has("syntax")
@@ -252,9 +244,6 @@ nmap <F1> <Esc>
 
 " Toggle Gundo tree
 nnoremap <F2> :GundoToggle<CR>
-
-" Mapping for fast Make-compile-edit cycles
-" map <F12> :make<CR>
 
 " Toggle paste on/off on F11
 set pastetoggle=<F11>
@@ -326,41 +315,6 @@ function! ModeChange()
     endif
   endif
 endfunction
-
-" automatically update SOA records in DNS zones
-if has("python")
-python << EOF
-def updateDnsSerial():
-    import re, time, vim, string
-
-    maxSearch = 20
-    cb = vim.current.buffer
-    foundSoa = 0
-    for i in xrange(0, min(maxSearch, len(cb))):
-        line = cb[i]
-        if foundSoa:
-            #  look for serial
-            rx = re.match(r'^\s*(\d+).*', line)
-            if not rx:
-                print 'Unable to find Serial'
-                return
-            serial = rx.group(1)
-            #  generate new serial
-            now = time.time()
-            today = time.strftime('%Y%m%d01', time.localtime(now))
-            todayVal = long(today)
-            serialVal = long(serial)
-            if todayVal <= serialVal: todayVal = serialVal + 1
-
-            #  update serial
-            cb[i] = string.replace(line, serial, '%d' % todayVal)
-
-            #  display update string
-            print 'Updated serial from "%s" to "%d"' % ( serial, todayVal )
-            break
-        if re.match(r'^@.+IN\s+SOA\s+', line): foundSoa = 1
-EOF
-endif
 
 " Transparent editing of gpg encrypted files.
 " By Wouter Hanegraaff <wouter@blub.net>
