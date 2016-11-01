@@ -9,15 +9,16 @@
 HISTCONTROL="ignoredups:ignorespace:ignoreboth"
 HISTIGNORE="&:[ ]*:exit"
 
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
 shopt -s histappend     # append to the history file, don't overwrite it
 shopt -s cmdhist        # multiline commands is added to history as one command
 shopt -s cdspell        # try to correct typos in path
 shopt -s dotglob        # include dotfiles in path expansion
 shopt -s hostcomplete   # try to autocomplete hostnames
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
