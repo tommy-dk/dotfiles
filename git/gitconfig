@@ -2,6 +2,8 @@
     path = ~/.gitconfig_local
 [core]
 	excludesfile = ~/.gitignore
+[push]
+    default = simple
 [diff]
 	tool = vimdiff
 [difftool]

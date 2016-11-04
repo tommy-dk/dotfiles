@@ -20,9 +20,6 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
-alias ckeep='cat ~/repository/keep/passwords'
-alias vkeep='vim ~/repository/keep/passwords'
-
 # for vim
 if [ -x "$(which vim)" ]; then
     alias vi='vim'
