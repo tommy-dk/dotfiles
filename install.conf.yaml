@@ -7,15 +7,13 @@
 - shell:
     - [mkdir -p ~/.tmux/plugins, Creating plugins directory for tmux]
     - [mkdir -p ~/.vim/backupfiles ~/.vim/tmp ~/.vim/undo, Creating directories for vim]
+    - [mkdir -p ~/.config/terminator, Creating directory for terminator]
     - [git submodule update --init --recursive, Installing submodules]
 
 - link:
     # vim
     ~/.vim: vim
     ~/.vimrc: vimrc
-
-    # screen
-    ~/.screenrc: screen/screenrc
 
     # bash
     ~/.bashrc: bash/bashrc
@@ -32,3 +30,6 @@
     # tmux
     ~/.tmux.conf: tmux/tmux.conf
     ~/.tmux/plugins/tpm: tmux/tpm
+
+    # terminator
+    ~/.config/terminator/config: terminator/config
