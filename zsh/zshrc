@@ -51,6 +51,10 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 export EDITOR='vim'
+export VISUAL='vim'
+
+# show slash at cd
+zstyle ':completion:*' special-dirs true
 
 # ssh
 export SSH_KEY_PATH="~/.ssh/id_rsa"
