@@ -38,6 +38,6 @@ fi
 # pwsafe
 alias pwsafe='vim ~/.pwsafe.bfa && clear'
 
-if [ -f ~/.bash_local ]; then
-    . ~/.bash_local
+if [ -f ~/.aliases_local ]; then
+    . ~/.aliases_local
 fi
