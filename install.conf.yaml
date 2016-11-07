@@ -33,3 +33,7 @@
 
     # terminator
     ~/.config/terminator/config: terminator/config
+
+    # zsh
+    ~/.zshrc: zsh/zshrc
+    ~/.oh-my-zsh: zsh/oh-my-zsh

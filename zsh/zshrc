@@ -1,0 +1,49 @@
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH=~/.oh-my-zsh
+
+ZSH_THEME="afowler"
+
+# oh-my-zsh settings
+DISABLE_AUTO_UPDATE="true"
+ENABLE_CORRECTION="true"
+
+# CASE_SENSITIVE="true"
+# HYPHEN_INSENSITIVE="true"
+# export UPDATE_ZSH_DAYS=13
+# DISABLE_AUTO_TITLE="true"
+# COMPLETION_WAITING_DOTS="true"
+
+plugins=(git common-aliases docker tmux jump)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+export EDITOR='vim'
+export VISUAL='vim'
+
+# history settings
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+HIST_STAMPS="dd-mm-yyyy"
+SAVEHIST=10000
+
+setopt HIST_VERIFY
+setopt SHARE_HISTORY # share history between sessions ???
+setopt EXTENDED_HISTORY # add timestamps to history
+
+# show slash at cd
+zstyle ':completion:*' special-dirs true
+
+# ssh
+export SSH_KEY_PATH="~/.ssh/id_rsa"
+
+function glog () {
+    git log -p -40 $1 | vim - -R -c "set foldmethod=syntax"
+}
+
+if [[ -a ~/.aliases_local ]]; then
+    source ~/.aliases_local
+fi

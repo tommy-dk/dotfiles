@@ -57,6 +57,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Shougo/neocomplete.vim'
 Plug 'breard-r/vim-dnsserial'
+Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 " Plugin settings
