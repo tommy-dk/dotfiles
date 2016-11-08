@@ -51,7 +51,7 @@ Plug 'gregsexton/gitv'
 Plug 'sjl/gundo.vim'
 Plug 'gregsexton/MatchTag'
 Plug 'chase/vim-ansible-yaml'
-Plug 'Townk/vim-autoclose'
+"Plug 'Townk/vim-autoclose'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -78,6 +78,15 @@ let g:acp_enableAtStartup = 0                               " Disable AutoComplP
 let g:neocomplete#enable_at_startup = 1                     " Use neocomplete.
 let g:neocomplete#enable_smart_case = 1                     " Use smartcase.
 let g:neocomplete#sources#syntax#min_keyword_length = 3     " Set minimum syntax keyword length.
+
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" backspace: close popup and delete backword char.
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
