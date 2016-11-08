@@ -2,6 +2,9 @@
   enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
   title_font = Sans 8
 [keybindings]
+  edit_tab_title = None
+  edit_terminal_title = None
+  edit_window_title = None
   full_screen = None
   help = None
 [layouts]

@@ -12,7 +12,7 @@ ENABLE_CORRECTION="true"
 # CASE_SENSITIVE="true"
 # HYPHEN_INSENSITIVE="true"
 # export UPDATE_ZSH_DAYS=13
-# DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="true"
 # COMPLETION_WAITING_DOTS="true"
 
 plugins=(git common-aliases docker tmux jump)
