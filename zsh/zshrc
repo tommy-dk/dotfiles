@@ -31,7 +31,7 @@ HIST_STAMPS="dd-mm-yyyy"
 SAVEHIST=10000
 
 setopt HIST_VERIFY
-setopt SHARE_HISTORY # share history between sessions ???
+#setopt SHARE_HISTORY # share history between sessions ???
 setopt EXTENDED_HISTORY # add timestamps to history
 
 # show slash at cd
@@ -43,6 +43,8 @@ export SSH_KEY_PATH="~/.ssh/id_rsa"
 function glog () {
     git log -p -40 $1 | vim - -R -c "set foldmethod=syntax"
 }
+
+alias tmux="tmux-next -2"
 
 if [[ -a ~/.aliases_local ]]; then
     source ~/.aliases_local

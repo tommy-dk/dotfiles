@@ -9,6 +9,7 @@
 " F3                Toggle relative/absolute numbering
 " F5                Clear CtrlP cache
 " F8                Toggle NerdTree on/off
+" F9                To run current buffer in Python
 " F11               Toggle paste on/off
 " F12               :make
 "
