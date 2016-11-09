@@ -5,15 +5,15 @@
 - clean: ['~']
 
 - shell:
-    - [mkdir -p ~/.tmux/plugins, Creating plugins directory for tmux]
-    - [mkdir -p ~/.vim/backupfiles ~/.vim/tmp ~/.vim/undo, Creating directories for vim]
+    - [mkdir -p ~/.tmux/plugins, Creating plugin directory for tmux]
+    - [mkdir -p ~/.vim/backupfiles ~/.vim/tmp ~/.vim/undo ~/.vim/autoload, Creating directories for vim]
     - [mkdir -p ~/.config/terminator, Creating directory for terminator]
     - [git submodule update --init --recursive, Installing submodules]
 
 - link:
     # vim
-    ~/.vim: vim
-    ~/.vimrc: vimrc
+    ~/.vimrc: vim/vimrc
+    ~/.vim/autoload/plug.vim: vim/vim-plug/plug.vim
 
     # bash
     ~/.bashrc: bash/bashrc

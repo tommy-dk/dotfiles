@@ -206,16 +206,6 @@ if has("autocmd")
     " Automatically load .vimrc source when saved
     autocmd BufWritePost .vimrc source $MYVIMRC
 
-    " Skeleton files:
-    autocmd BufNewfile *.c          0r ~/.vim/skeleton.c
-    autocmd BufNewfile *.h          0r ~/.vim/skeleton.h
-    autocmd BufNewfile *.cc         0r ~/.vim/skeleton.cc
-    autocmd BufNewfile *.hh         0r ~/.vim/skeleton.hh
-    autocmd BufNewfile *.java       0r ~/.vim/skeleton.java
-    autocmd BufNewFile *.html       0r ~/.vim/skeleton.html
-    autocmd BufNewfile *.tex        0r ~/.vim/skeleton.tex
-    autocmd BufNewfile *.py         0r ~/.vim/skeleton.py
-
     " Python definitions
     autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,with,try,except,finally,def,class
     autocmd FileType python setl autoindent tabstop=4 expandtab shiftwidth=4 softtabstop=4
