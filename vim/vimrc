@@ -95,6 +95,7 @@ set nocompatible
 
 " Appearance
 set t_Co=256
+set term=screen-256color
 
 " Color scheme
 colorscheme molokai
@@ -379,3 +380,11 @@ function! OpenURL(url)
   redraw!
 endfunction
 command! -nargs=1 OpenURL :call OpenURL(<q-args>)
+
+" Handle tmux $TERM quirks in vim
+if $TERM =~ '^screen-256color'
+    map <Esc>OH <Home>
+    map! <Esc>OH <Home>
+    map <Esc>OF <End>
+    map! <Esc>OF <End>
+endif
