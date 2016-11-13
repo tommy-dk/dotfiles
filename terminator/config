@@ -19,6 +19,7 @@
 [plugins]
 [profiles]
   [[default]]
+    background_color = "#1c1c1c"
     background_image = None
     font = Monospace 9
     use_system_font = False
