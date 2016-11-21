@@ -7,7 +7,7 @@ ZSH_THEME="afowler"
 
 # oh-my-zsh settings
 DISABLE_AUTO_UPDATE="true"
-ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="false"
 
 # CASE_SENSITIVE="true"
 # HYPHEN_INSENSITIVE="true"
@@ -20,8 +20,7 @@ plugins=(git common-aliases docker jump)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-
-export TERM=screen-256color
+[[ $TMUX = "" ]] && export TERM="xterm-256color"
 export EDITOR='vim'
 export VISUAL='vim'
 
@@ -53,8 +52,9 @@ else
 fi
 
 # Enable if powerline is installed
-if [[ -a ~/.local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh ]]; then
-    source ~/.local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+if command -v powerline-daemon > /dev/null; then
+	powerline-daemon -q
+	source /usr/share/powerline/bindings/zsh/powerline.zsh
 fi
 
 # Include if there is local aliases
