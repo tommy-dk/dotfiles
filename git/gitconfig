@@ -30,6 +30,3 @@
             echo last commit file modified $last_modified_commit_hash; \
             git difftool $last_modified_commit_hash^ $filepath; \
        }; f"
-[credential]
-	helper = !aws codecommit credential-helper $@
-	UseHttpPath = true
