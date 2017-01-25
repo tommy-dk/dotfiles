@@ -20,6 +20,7 @@
     ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
     f = "!git ls-files | grep -i"
     la = "!git config -l | grep alias | cut -c 7-"
+    update-submodule = !"git submodule update --remote --merge && git submodule update"
     s = status -s
     diff-file-last-commit = "!f() { \
             project_root_dir=$(git rev-parse --show-toplevel); \

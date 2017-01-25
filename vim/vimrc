@@ -113,7 +113,7 @@ set nostartofline								" yeah, sure
 set ruler										" always show ruler
 set showcmd										" tell me what i'm doing
 set showmatch									" where'd the opening ')' go?
-set showmode									" where am i?
+set noshowmode									" handled by vim-airline
 set history=150         						" keep 150 lines of command line history
 set nowrap                                      " wrapping off!
 set hlsearch                                    " when searching hilight the word

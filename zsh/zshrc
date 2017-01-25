@@ -56,8 +56,9 @@ else
 fi
 
 # Enable if powerline is installed
-if [[ -a ~/.local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh ]]; then
-    source ~/.local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+if command -v powerline-daemon > /dev/null; then
+	powerline-daemon -q
+	source /usr/share/powerline/bindings/zsh/powerline.zsh
 fi
 
 # Include if there is local aliases

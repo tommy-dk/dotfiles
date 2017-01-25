@@ -29,7 +29,7 @@
 
     # tmux
     ~/.tmux.conf: tmux/tmux.conf
-    ~/.design.conf: tmux/design.conf
+    ~/.tmux/design.conf: tmux/design.conf
     ~/.tmux/plugins/tpm: tmux/tpm
 
     # terminator
