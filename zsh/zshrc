@@ -3,7 +3,56 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
-ZSH_THEME="afowler"
+# Make sure the following packages are installed: fonts-powerline fonts-font-awesome texlive-fonts-extra
+#POWERLEVEL9K_MODE='awesome-patched'
+#POWERLEVEL9K_MODE='awesome-'
+
+# Disable dir/git icons
+POWERLEVEL9K_HOME_ICON=''
+POWERLEVEL9K_HOME_SUB_ICON=''
+POWERLEVEL9K_FOLDER_ICON=''
+
+DISABLE_AUTO_TITLE="true"
+
+POWERLEVEL9K_VCS_GIT_ICON=''
+POWERLEVEL9K_VCS_STAGED_ICON='\u00b1'
+POWERLEVEL9K_VCS_UNTRACKED_ICON='\u25CF'
+POWERLEVEL9K_VCS_UNSTAGED_ICON='\u00b1'
+POWERLEVEL9K_VCS_INCOMING_CHANGES_ICON='\u2193'
+POWERLEVEL9K_VCS_OUTGOING_CHANGES_ICON='\u2191'
+
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='yellow'
+POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='yellow'
+
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
+
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs root_indicator)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(aws custom_docker custom_aws)
+
+POWERLEVEL9K_CUSTOM_DOCKER="zsh_docker"
+POWERLEVEL9K_CUSTOM_DOCKER_BACKGROUND="blue"
+POWERLEVEL9K_CUSTOM_DOCKER_FOREGROUND="white"
+POWERLEVEL9K_CUSTOM_AWS="zsh_aws"
+POWERLEVEL9K_CUSTOM_AWS_BACKGROUND="red"
+POWERLEVEL9K_CUSTOM_AWS_FOREGROUND="white"
+ZSH_THEME="powerlevel9k/powerlevel9k"
+
+zsh_docker() {
+    local docker_host="$DOCKER_MACHINE_NAME"
+
+    if [[ -n "$docker_host" ]]; then
+        echo -n 🐳 "$docker_host"
+    fi
+}
+
+# AWS Profile
+zsh_aws() {
+  local aws_profile="$AWS_PROFILE"
+
+  if [[ -n "$aws_profile" ]]; then
+  	echo -n "AWS: $aws_profile"
+  fi
+}
 
 # oh-my-zsh settings
 DISABLE_AUTO_UPDATE="true"
@@ -12,10 +61,10 @@ ENABLE_CORRECTION="false"
 # CASE_SENSITIVE="true"
 # HYPHEN_INSENSITIVE="true"
 # export UPDATE_ZSH_DAYS=13
-DISABLE_AUTO_TITLE="true"
+#DISABLE_AUTO_TITLE="true"
 # COMPLETION_WAITING_DOTS="true"
 
-plugins=(git common-aliases docker jump)
+plugins=(git common-aliases docker jump terraform)
 
 source $ZSH/oh-my-zsh.sh
 

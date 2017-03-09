@@ -9,6 +9,7 @@
     - [mkdir -p ~/.vim/backupfiles ~/.vim/tmp ~/.vim/undo ~/.vim/autoload, Creating directories for vim]
     - [mkdir -p ~/.config/terminator, Creating directory for terminator]
     - [git submodule update --init --recursive, Installing submodules]
+    - [sh powerline-fonts/install.sh]
 
 - link:
     # vim
@@ -38,3 +39,4 @@
     # zsh
     ~/.zshrc: zsh/zshrc
     ~/.oh-my-zsh: zsh/oh-my-zsh
+    ~/.oh-my-zsh/custom/themes: zsh/custom/themes

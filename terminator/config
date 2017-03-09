@@ -19,7 +19,8 @@
 [plugins]
 [profiles]
   [[default]]
-    background_color = "#1c1c1c"
-    background_image = None
-    font = Monospace 9
+    background_color = "#300a24"
+    cursor_color = "#aaaaaa"
+    font = Source Code Pro for Powerline Light 10
+    foreground_color = "#ffffff"
     use_system_font = False

@@ -10,3 +10,9 @@
 [submodule "vim/vim-plug"]
 	path = vim/vim-plug
 	url = https://github.com/junegunn/vim-plug
+[submodule "zsh/custom/themes/powerlevel9k"]
+	path = zsh/custom/themes/powerlevel9k
+	url = https://github.com/bhilburn/powerlevel9k.git
+[submodule "powerline-fonts"]
+	path = powerline-fonts
+	url = https://github.com/powerline/fonts
