@@ -7,6 +7,8 @@ fi
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
+[[ $TMUX = "" ]] && export TERM="xterm-256color"
+
 # Make sure the following packages are installed: fonts-powerline fonts-font-awesome texlive-fonts-extra
 #POWERLEVEL9K_MODE='awesome-patched'
 #POWERLEVEL9K_MODE='awesome-'
@@ -73,7 +75,6 @@ plugins=(git common-aliases docker jump terraform)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-[[ $TMUX = "" ]] && export TERM="xterm-256color"
 export EDITOR='vim'
 export VISUAL='vim'
 
@@ -102,12 +103,6 @@ if [[ -r $(which tmux-next) ]]; then
     alias tmux="tmux-next -2"
 else
     alias tmux="tmux -2"
-fi
-
-# Enable if powerline is installed
-if command -v powerline-daemon > /dev/null; then
-	powerline-daemon -q
-	source /usr/share/powerline/bindings/zsh/powerline.zsh
 fi
 
 # Include if there is local aliases
