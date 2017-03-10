@@ -382,7 +382,7 @@ endfunction
 command! -nargs=1 OpenURL :call OpenURL(<q-args>)
 
 " Handle tmux $TERM quirks in vim
-if $TERM =~ '^screen-256color'
+if $TERM =~ '^screen-256color' || $TERM =~ '^xterm-256color'
     map <Esc>OH <Home>
     map! <Esc>OH <Home>
     map <Esc>OF <End>
