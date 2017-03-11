@@ -18,6 +18,11 @@ POWERLEVEL9K_HOME_ICON=''
 POWERLEVEL9K_HOME_SUB_ICON=''
 POWERLEVEL9K_FOLDER_ICON=''
 
+# disable tags
+POWERLEVEL9K_VCS_HIDE_TAGS=true
+
+POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
+
 DISABLE_AUTO_TITLE="true"
 
 POWERLEVEL9K_VCS_GIT_ICON=''
@@ -33,8 +38,11 @@ POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='yellow'
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs root_indicator)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(aws custom_docker custom_aws)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(custom_semver custom_docker custom_aws)
 
+POWERLEVEL9K_CUSTOM_SEMVER="zsh_semver"
+POWERLEVEL9K_CUSTOM_SEMVER_BACKGROUND="yellow"
+POWERLEVEL9K_CUSTOM_SEMVER_FOREGROUND="black"
 POWERLEVEL9K_CUSTOM_DOCKER="zsh_docker"
 POWERLEVEL9K_CUSTOM_DOCKER_BACKGROUND="blue"
 POWERLEVEL9K_CUSTOM_DOCKER_FOREGROUND="white"
@@ -42,6 +50,16 @@ POWERLEVEL9K_CUSTOM_AWS="zsh_aws"
 POWERLEVEL9K_CUSTOM_AWS_BACKGROUND="red"
 POWERLEVEL9K_CUSTOM_AWS_FOREGROUND="white"
 ZSH_THEME="powerlevel9k/powerlevel9k"
+
+zsh_semver() {
+    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]]; then
+        local tag
+        tag=$(git describe --tags --exact-match HEAD 2>/dev/null)
+        if [[ $tag =~ "^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$" ]]; then
+            echo -n "$tag"
+        fi
+    fi
+}
 
 zsh_docker() {
     local docker_host="$DOCKER_MACHINE_NAME"
