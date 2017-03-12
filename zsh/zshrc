@@ -88,7 +88,7 @@ ENABLE_CORRECTION="false"
 #DISABLE_AUTO_TITLE="true"
 # COMPLETION_WAITING_DOTS="true"
 
-plugins=(git common-aliases docker jump terraform)
+plugins=(git common-aliases docker jump terraform gradle)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -122,6 +122,10 @@ if [[ -r $(which tmux-next) ]]; then
 else
     alias tmux="tmux -2"
 fi
+
+unalias mv
+unalias rm
+unalias cp
 
 # Include if there is local aliases
 if [[ -a ~/.aliases_local ]]; then
