@@ -200,7 +200,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.*html*,*.css,*.js,*.php set tw=300 autoindent
 
     " nice yaml files
-    autocmd FileType yaml setlocal ts=4 sts=4 sw=4 expandtab
+    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 
     " makefiles and c
     autocmd BufNewFile,BufRead Makefile,*.c,*.h,*.cpp set ts=4
