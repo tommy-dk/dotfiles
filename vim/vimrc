@@ -270,6 +270,9 @@ nnoremap <silent> <C-t> :tabnew<CR>
 " Close tab
 " nnoremap <silent> <C-w> :tabclose<CR>
 
+" Ctrl-backspace deletes word
+inoremap <C-H> <C-W>
+
 " map F8 to NerdTree open/close
 nmap <silent> <F8> :NERDTreeToggle<CR>
 map <C-k> :python GenPassword()
