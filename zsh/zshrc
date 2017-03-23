@@ -140,6 +140,8 @@ unalias mv
 unalias rm
 unalias cp
 
+unsetopt share_history
+
 # Include if there is local aliases
 if [[ -a ~/.aliases_local ]]; then
     source ~/.aliases_local
