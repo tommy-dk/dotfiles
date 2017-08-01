@@ -31,3 +31,6 @@
             echo last commit file modified $last_modified_commit_hash; \
             git difftool $last_modified_commit_hash^ $filepath; \
        }; f"
+[user]
+	name = Tommy Heyde Olsen
+	email = tommy@heyde-olsen.dk
