@@ -10,6 +10,7 @@
     - [mkdir -p ~/.config/terminator, Creating directory for terminator]
     - [git submodule update --init --recursive, Installing submodules]
     - [sh powerline-fonts/install.sh]
+    - [cp -n git/gitconfig_local ~/.gitconfig_local, Copying local git config]
 
 - link:
     # vim
