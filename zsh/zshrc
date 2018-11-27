@@ -1,4 +1,4 @@
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 if [ -d "$HOME/.local/bin" ]; then
     export PATH="$HOME/.local/bin:$PATH";
@@ -38,11 +38,14 @@ POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='yellow'
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs root_indicator)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(custom_semver custom_docker custom_aws)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(custom_k8s)
 
 POWERLEVEL9K_CUSTOM_SEMVER="zsh_semver"
 POWERLEVEL9K_CUSTOM_SEMVER_BACKGROUND="yellow"
 POWERLEVEL9K_CUSTOM_SEMVER_FOREGROUND="black"
+POWERLEVEL9K_CUSTOM_K8S="zsh_k8s"
+POWERLEVEL9K_CUSTOM_K8S_BACKGROUND="blue"
+POWERLEVEL9K_CUSTOM_K8S_FOREGROUND="white"
 POWERLEVEL9K_CUSTOM_DOCKER="zsh_docker"
 POWERLEVEL9K_CUSTOM_DOCKER_BACKGROUND="blue"
 POWERLEVEL9K_CUSTOM_DOCKER_FOREGROUND="white"
@@ -61,6 +64,14 @@ zsh_semver() {
         if [[ $tag =~ "^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$" ]]; then
             echo -n "$tag"
         fi
+    fi
+}
+
+zsh_k8s() {
+    local k8s=$(kubectl config current-context)
+
+    if [[ -n "$k8s" ]]; then
+        echo -n "☁  $k8s"
     fi
 }
 
@@ -101,7 +112,7 @@ ENABLE_CORRECTION="false"
 #DISABLE_AUTO_TITLE="true"
 # COMPLETION_WAITING_DOTS="true"
 
-plugins=(git common-aliases docker jump terraform gradle kubectl)
+plugins=(git common-aliases docker jump terraform gradle kubectl command-time)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -151,3 +162,6 @@ if [[ -a ~/lib/azure-cli/az.completion ]]; then
     autoload -U bashcompinit && bashcompinit
     source ~/lib/azure-cli/az.completion
 fi
+
+autoload -U +X bashcompinit && bashcompinit
+complete -C /usr/local/Cellar/terraform/0.11.8/bin/terraform terraform
