@@ -112,3 +112,5 @@ if [ -f ~/bin/todo ]; then
     echo "     ***** TODO ***** "
     ~/bin/todo
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
