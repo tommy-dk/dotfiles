@@ -44,8 +44,8 @@ POWERLEVEL9K_CUSTOM_SEMVER="zsh_semver"
 POWERLEVEL9K_CUSTOM_SEMVER_BACKGROUND="yellow"
 POWERLEVEL9K_CUSTOM_SEMVER_FOREGROUND="black"
 POWERLEVEL9K_CUSTOM_K8S="zsh_k8s"
-POWERLEVEL9K_CUSTOM_K8S_BACKGROUND="blue"
-POWERLEVEL9K_CUSTOM_K8S_FOREGROUND="white"
+POWERLEVEL9K_CUSTOM_K8S_BACKGROUND="magenta"
+POWERLEVEL9K_CUSTOM_K8S_FOREGROUND="black"
 POWERLEVEL9K_CUSTOM_DOCKER="zsh_docker"
 POWERLEVEL9K_CUSTOM_DOCKER_BACKGROUND="blue"
 POWERLEVEL9K_CUSTOM_DOCKER_FOREGROUND="white"
@@ -56,6 +56,8 @@ POWERLEVEL9K_CUSTOM_PROXY="zsh_proxy"
 POWERLEVEL9K_CUSTOM_PROXY_BACKGROUND="magenta"
 POWERLEVEL9K_CUSTOM_PROXY_FOREGROUND="white"
 ZSH_THEME="powerlevel9k/powerlevel9k"
+
+ZSH_COMMAND_TIME_COLOR="cyan"
 
 zsh_semver() {
     if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]]; then
@@ -68,10 +70,13 @@ zsh_semver() {
 }
 
 zsh_k8s() {
-    local k8s=$(kubectl config current-context)
+    local k8s_context=$(kubectl config current-context 2>/dev/null)
+    local k8s_namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null)
+    # Set namespace to 'default' if it is not defined
+    local k8s_namespace="${k8s_namespace:-default}"
 
-    if [[ -n "$k8s" ]]; then
-        echo -n "☁  $k8s"
+    if [[ -n "$k8s_context" ]]; then
+        echo -n "\u2388  $k8s_context:$k8s_namespace"
     fi
 }
 
@@ -112,7 +117,7 @@ ENABLE_CORRECTION="false"
 #DISABLE_AUTO_TITLE="true"
 # COMPLETION_WAITING_DOTS="true"
 
-plugins=(git common-aliases docker jump terraform gradle kubectl command-time)
+plugins=(git common-aliases docker jump terraform kubectl command-time)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -165,3 +170,5 @@ fi
 
 autoload -U +X bashcompinit && bashcompinit
 complete -C /usr/local/Cellar/terraform/0.11.8/bin/terraform terraform
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
