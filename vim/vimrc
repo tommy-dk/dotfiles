@@ -356,15 +356,15 @@ augroup encrypted
 augroup END
 
 " password generator
-if has("python")
-python << EOF
-from random import choice
-import vim
-import string
-def GenPassword(length=8, chars=string.letters + string.digits):
-    vim.current.line = ''.join([choice(chars) for i in range(length)])
-EOF
-endif
+"if has("python")
+"python << EOF
+"from random import choice
+"import vim
+"import string
+"def GenPassword(length=8, chars=string.letters + string.digits):
+"    vim.current.line = ''.join([choice(chars) for i in range(length)])
+"EOF
+"endif
 
 " no comments in configuration files
 " http://www.debian-administration.org/articles/616
