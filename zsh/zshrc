@@ -4,6 +4,8 @@ if [ -d "$HOME/.local/bin" ]; then
     export PATH="$HOME/.local/bin:$PATH";
 fi
 
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
@@ -55,7 +57,7 @@ POWERLEVEL9K_CUSTOM_AWS_FOREGROUND="white"
 POWERLEVEL9K_CUSTOM_PROXY="zsh_proxy"
 POWERLEVEL9K_CUSTOM_PROXY_BACKGROUND="magenta"
 POWERLEVEL9K_CUSTOM_PROXY_FOREGROUND="white"
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 ZSH_COMMAND_TIME_COLOR="cyan"
 
@@ -169,6 +171,9 @@ if [[ -a ~/lib/azure-cli/az.completion ]]; then
 fi
 
 autoload -U +X bashcompinit && bashcompinit
-complete -C /usr/local/Cellar/terraform/0.11.8/bin/terraform terraform
+complete -C /usr/local/Cellar/terraform/0.11.11/bin/terraform terraform
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

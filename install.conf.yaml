@@ -9,6 +9,7 @@
     - [mkdir -p ~/.vim/backupfiles ~/.vim/tmp ~/.vim/undo ~/.vim/autoload, Creating directories for vim]
     - [mkdir -p ~/.config/terminator, Creating directory for terminator]
     - [git submodule update --init --recursive, Installing submodules]
+    - [git pull --recurse-submodules, Pulling submodules]
     - [sh powerline-fonts/install.sh]
     - [cp -n git/gitconfig_local ~/.gitconfig_local, Copying local git config]
 
@@ -39,6 +40,8 @@
 
     # zsh
     ~/.zshrc: zsh/zshrc
+    ~/.p10k.zsh: zsh/p10k.zsh
     ~/.oh-my-zsh: zsh/oh-my-zsh
-    ~/.oh-my-zsh/custom/themes: zsh/custom/themes
-    ~/.oh-my-zsh/custom/plugins: zsh/custom/plugins
+    ~/.oh-my-zsh/custom/themes/powerlevel9k: zsh/custom/themes/powerlevel9k
+    ~/.oh-my-zsh/custom/themes/powerlevel10k: zsh/custom/themes/powerlevel10k
+    ~/.oh-my-zsh/custom/plugins/command-time: zsh/custom/plugins/command-time
