@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
 if [ -d "$HOME/.local/bin" ]; then
@@ -11,103 +18,9 @@ export ZSH=~/.oh-my-zsh
 
 [[ $TMUX = "" ]] && export TERM="xterm-256color"
 
-# Make sure the following packages are installed: fonts-powerline fonts-font-awesome texlive-fonts-extra
-#POWERLEVEL9K_MODE='awesome-patched'
-#POWERLEVEL9K_MODE='awesome-'
-
-# Disable dir/git icons
-POWERLEVEL9K_HOME_ICON=''
-POWERLEVEL9K_HOME_SUB_ICON=''
-POWERLEVEL9K_FOLDER_ICON=''
-
-# disable tags
-POWERLEVEL9K_VCS_HIDE_TAGS=true
-
-POWERLEVEL9K_CONTEXT_TEMPLATE="%n"
-
-DISABLE_AUTO_TITLE="true"
-
-POWERLEVEL9K_VCS_GIT_ICON=''
-POWERLEVEL9K_VCS_STAGED_ICON='\u00b1'
-POWERLEVEL9K_VCS_UNTRACKED_ICON='\u25CF'
-POWERLEVEL9K_VCS_UNSTAGED_ICON='\u00b1'
-POWERLEVEL9K_VCS_INCOMING_CHANGES_ICON='\u2193'
-POWERLEVEL9K_VCS_OUTGOING_CHANGES_ICON='\u2191'
-
-POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='yellow'
-POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='yellow'
-
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs root_indicator)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(custom_k8s)
-
-POWERLEVEL9K_CUSTOM_SEMVER="zsh_semver"
-POWERLEVEL9K_CUSTOM_SEMVER_BACKGROUND="yellow"
-POWERLEVEL9K_CUSTOM_SEMVER_FOREGROUND="black"
-POWERLEVEL9K_CUSTOM_K8S="zsh_k8s"
-POWERLEVEL9K_CUSTOM_K8S_BACKGROUND="magenta"
-POWERLEVEL9K_CUSTOM_K8S_FOREGROUND="black"
-POWERLEVEL9K_CUSTOM_DOCKER="zsh_docker"
-POWERLEVEL9K_CUSTOM_DOCKER_BACKGROUND="blue"
-POWERLEVEL9K_CUSTOM_DOCKER_FOREGROUND="white"
-POWERLEVEL9K_CUSTOM_AWS="zsh_aws"
-POWERLEVEL9K_CUSTOM_AWS_BACKGROUND="red"
-POWERLEVEL9K_CUSTOM_AWS_FOREGROUND="white"
-POWERLEVEL9K_CUSTOM_PROXY="zsh_proxy"
-POWERLEVEL9K_CUSTOM_PROXY_BACKGROUND="magenta"
-POWERLEVEL9K_CUSTOM_PROXY_FOREGROUND="white"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 ZSH_COMMAND_TIME_COLOR="cyan"
-
-zsh_semver() {
-    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]]; then
-        local tag
-        tag=$(git describe --tags --exact-match HEAD 2>/dev/null)
-        if [[ $tag =~ "^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)?(\+[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)?$" ]]; then
-            echo -n "$tag"
-        fi
-    fi
-}
-
-zsh_k8s() {
-    local k8s_context=$(kubectl config current-context 2>/dev/null)
-    local k8s_namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null)
-    # Set namespace to 'default' if it is not defined
-    local k8s_namespace="${k8s_namespace:-default}"
-
-    if [[ -n "$k8s_context" ]]; then
-        echo -n "\u2388  $k8s_context:$k8s_namespace"
-    fi
-}
-
-zsh_docker() {
-    local docker_host="$DOCKER_MACHINE_NAME"
-
-    if [[ -n "$docker_host" ]]; then
-        echo -n 🐳 "$docker_host"
-    fi
-}
-
-# AWS Profile
-zsh_aws() {
-  local aws_profile="$AWS_PROFILE"
-
-  if [[ -n "$aws_profile" ]]; then
-  	echo -n "AWS: $aws_profile"
-  fi
-}
-
-# Show if proxy on/off
-zsh_proxy() {
-    local proxy="$http_proxy"
-    if [[ -n "$proxy" ]]; then
-        echo -n "Proxy: ON"
-    else
-        echo -n "Proxy: OFF"
-    fi
-}
 
 # oh-my-zsh settings
 DISABLE_AUTO_UPDATE="true"
@@ -119,7 +32,7 @@ ENABLE_CORRECTION="false"
 #DISABLE_AUTO_TITLE="true"
 # COMPLETION_WAITING_DOTS="true"
 
-plugins=(git common-aliases docker jump terraform kubectl command-time)
+plugins=(git common-aliases docker jump command-time zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -147,6 +60,15 @@ function glog () {
     git log -p -40 $1 | vim - -R -c "set foldmethod=syntax"
 }
 
+# Lazy loading: https://github.com/kubernetes/kubernetes/issues/59078#issuecomment-363384825
+function kubectl() {
+    if ! type __start_kubectl >/dev/null 2>&1; then
+        source <(command kubectl completion zsh)
+    fi
+
+    command kubectl "$@"
+}
+
 # Always use 256 colors with tmux
 if [[ -r $(which tmux-next) ]]; then
     alias tmux="tmux-next -2"
@@ -165,15 +87,8 @@ if [[ -a ~/.aliases_local ]]; then
     source ~/.aliases_local
 fi
 
-if [[ -a ~/lib/azure-cli/az.completion ]]; then
-    autoload -U bashcompinit && bashcompinit
-    source ~/lib/azure-cli/az.completion
-fi
-
-autoload -U +X bashcompinit && bashcompinit
-complete -C /usr/local/Cellar/terraform/0.11.11/bin/terraform terraform
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"
