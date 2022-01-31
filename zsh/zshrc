@@ -92,3 +92,6 @@ fi
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 export PATH="/usr/local/opt/mysql-client/bin:$PATH"
+
+# To customize prompt, run `p10k configure` or edit ~/Private/dotfiles/zsh/p10k.zsh.
+[[ ! -f ~/Private/dotfiles/zsh/p10k.zsh ]] || source ~/Private/dotfiles/zsh/p10k.zsh
