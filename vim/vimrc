@@ -17,7 +17,6 @@
 "
 " <leader>ig        Toggle indent guides on/off
 " <leader>h         Hide search highlighting
-" <leader>dns       Update/increment serialnumber in a bindzone
 " <leader>gv        Open gitv in file mode
 " <leader>gV        Open gitv in browse mode
 "
@@ -57,7 +56,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Shougo/neocomplete.vim'
-Plug 'breard-r/vim-dnsserial'
 Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
@@ -214,11 +212,6 @@ if has("autocmd")
 
     " Change mode on scripts
     autocmd BufWritePost * call ModeChange()
-
-    " Update / increment DNS serial with ,dns
-    if has("python")
-        autocmd FileType bindzone map <leader>dns :python updateDnsSerial()<CR>
-    endif
 
     " Automatically cd into the directory that the file is in
     "autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
